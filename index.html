@@ -7,7 +7,8 @@
       name="description"
       content="O‘zbek kirill yozuvini yangi lotin alifbosiga o‘tkazing. Matnni kiriting yoki TXT faylni yuklang."
     />
-    <meta name="theme-color" content="#111827" />
+    <meta id="theme-color" name="theme-color" content="#111827" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <title>Yozuv — O‘zbek alifbosi konvertori</title>
     <style>
       :root {
@@ -27,6 +28,8 @@
         --green: #0c9b72;
         --green-hover: #10b981;
         --green-soft: #133e39;
+        --success: #76ddba;
+        --focus: #6ee7c0;
         --danger: #fca5a5;
       }
 
@@ -76,28 +79,311 @@
       .brand {
         display: inline-flex;
         align-items: center;
-        gap: 11px;
+        gap: 10px;
         color: var(--text);
-        font-size: 19px;
+        font-size: 16px;
         font-weight: 750;
-        letter-spacing: -0.035em;
-        text-decoration: none;
+        letter-spacing: -0.02em;
       }
 
       .brand-mark {
-        display: grid;
-        width: 36px;
-        height: 36px;
-        place-items: center;
-        border-radius: 11px;
-        background: var(--green);
-        color: white;
-        font-size: 17px;
+        display: block;
+        width: 34px;
+        height: 34px;
+        flex: 0 0 auto;
       }
 
-      .topbar-note {
-        color: var(--muted);
+      .header-controls {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 9px;
+      }
+
+      .header-menu {
+        position: relative;
+      }
+
+      .header-control {
+        display: inline-flex;
+        min-height: 40px;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 0 11px;
+        border: 0;
+        border-radius: 9px;
+        background: transparent;
+        color: var(--green-hover);
+        cursor: pointer;
         font-size: 13px;
+        font-weight: 650;
+        white-space: nowrap;
+      }
+
+      .header-control:hover:not(:disabled),
+      .header-control[aria-expanded="true"] {
+        background: var(--surface);
+      }
+
+      .header-control:focus-visible,
+      .menu-option:focus-visible,
+      .dialog-close:focus-visible {
+        outline: 2px solid #6ee7c0;
+        outline-offset: 3px;
+      }
+
+      .header-control .chevron {
+        width: 13px;
+        height: 13px;
+        transition: transform 140ms ease;
+      }
+
+      .header-control[aria-expanded="true"] .chevron {
+        transform: rotate(180deg);
+      }
+
+      .header-control.help-control svg {
+        width: 19px;
+        height: 19px;
+        flex: 0 0 auto;
+      }
+
+      .header-control.help-control {
+        padding: 0 14px;
+        background: var(--green);
+        color: white;
+      }
+
+      .header-control.help-control:hover {
+        background: var(--green-hover);
+      }
+
+      .menu-options {
+        position: absolute;
+        z-index: 5;
+        top: calc(100% + 8px);
+        right: 0;
+        min-width: 178px;
+        padding: 5px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: var(--panel);
+        box-shadow: 0 14px 35px #080d1780;
+      }
+
+      .menu-options[hidden] {
+        display: none;
+      }
+
+      .menu-option {
+        display: flex;
+        width: 100%;
+        min-height: 38px;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 10px;
+        border: 0;
+        border-radius: 7px;
+        background: transparent;
+        color: var(--text);
+        cursor: pointer;
+        font: inherit;
+        font-size: 13px;
+        text-align: left;
+      }
+
+      .menu-option:hover,
+      .menu-option[aria-checked="true"] {
+        background: var(--surface);
+      }
+
+      .menu-option[aria-checked="true"]::after {
+        color: var(--green-hover);
+        content: "✓";
+      }
+
+      .help-dialog {
+        width: min(520px, calc(100vw - 32px));
+        max-height: min(80vh, 650px);
+        padding: 0;
+        overflow: auto;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: var(--panel);
+        color: var(--text);
+        box-shadow: 0 24px 80px #080d17b3;
+      }
+
+      .help-dialog::backdrop {
+        background: #080d17b3;
+        backdrop-filter: blur(3px);
+      }
+
+      .dialog-content {
+        padding: 24px;
+      }
+
+      .dialog-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 15px;
+      }
+
+      .dialog-head h2 {
+        margin: 0;
+        font-size: 20px;
+      }
+
+      .dialog-close {
+        display: grid;
+        width: 34px;
+        height: 34px;
+        place-items: center;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--surface);
+        color: var(--text);
+        cursor: pointer;
+        font-size: 18px;
+      }
+
+      .dialog-content p,
+      .dialog-content li {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.65;
+      }
+
+      .dialog-content ol {
+        display: grid;
+        gap: 8px;
+        padding-left: 21px;
+      }
+
+      [data-theme="light"] {
+        color-scheme: light;
+        --page: #f4f7f5;
+        --panel: #ffffff;
+        --surface: #f1f5f3;
+        --surface-raised: #e8efeb;
+        --border: #d6e0da;
+        --text: #172b24;
+        --muted: #52665c;
+        --green: #087c5d;
+        --green-hover: #066248;
+        --green-soft: #e2f2eb;
+        --success: #08704f;
+        --focus: #087c5d;
+        --danger: #b42318;
+      }
+
+      body[data-theme="light"] {
+        background: radial-gradient(ellipse at 50% -30%, #e4eee8 0, transparent 56%), var(--page);
+      }
+
+      [data-theme="light"] .app {
+        border-color: #e0e8e3;
+        background: rgba(255, 255, 255, 0.96);
+        box-shadow: 0 24px 80px #27453614;
+      }
+
+      [data-theme="light"] .flow span {
+        border-color: var(--border);
+        background: #f5f8f6;
+        color: var(--text);
+      }
+
+      [data-theme="light"] .direction-card,
+      [data-theme="light"] .upload-zone,
+      [data-theme="light"] .text-card,
+      [data-theme="light"] .footer,
+      [data-theme="light"] .result-card,
+      [data-theme="light"] .dialog-close {
+        border-color: var(--border);
+        background: #f7faf8;
+      }
+
+      [data-theme="light"] .result-preview,
+      [data-theme="light"] .direction-field select,
+      [data-theme="light"] .text-field textarea {
+        border-color: var(--border);
+        background: #ffffff;
+        color: var(--text);
+      }
+
+      [data-theme="light"] .direction-field label,
+      [data-theme="light"] .text-field label,
+      [data-theme="light"] .footer strong {
+        color: #2f493c;
+      }
+
+      [data-theme="light"] .text-field textarea[readonly] {
+        color: var(--text);
+      }
+
+      [data-theme="light"] .text-field textarea::placeholder {
+        color: #667a70;
+      }
+
+      [data-theme="light"] .upload-zone {
+        border-color: #9aafa3;
+      }
+
+      [data-theme="light"] .upload-zone.is-dragging {
+        border-color: var(--green);
+        background: #edf7f1;
+      }
+
+      [data-theme="light"] .upload-icon {
+        border-color: #bfdfce;
+        color: #08704f;
+      }
+
+      [data-theme="light"] .eyebrow,
+      [data-theme="light"] .flow b,
+      [data-theme="light"] .direction-arrow,
+      [data-theme="light"] .swap,
+      [data-theme="light"] .footer-mark {
+        color: var(--green);
+      }
+
+      [data-theme="light"] .status {
+        color: var(--success);
+      }
+
+      [data-theme="light"] .status.is-error {
+        color: var(--danger);
+      }
+
+      [data-theme="light"] .button:focus-visible,
+      [data-theme="light"] .file-picker:focus-visible + .button,
+      [data-theme="light"] textarea:focus-visible,
+      [data-theme="light"] .header-control:focus-visible,
+      [data-theme="light"] .menu-option:focus-visible,
+      [data-theme="light"] .dialog-close:focus-visible,
+      [data-theme="light"] .direction-field select:focus-visible {
+        outline-color: var(--focus);
+      }
+
+      [data-theme="light"] .menu-options {
+        border-color: var(--border);
+        background: #ffffff;
+        box-shadow: 0 14px 35px #2745361c;
+      }
+
+      [data-theme="light"] .help-dialog {
+        border-color: var(--border);
+        background: #ffffff;
+      }
+
+      [data-theme="light"] .dialog-close,
+      [data-theme="light"] .button.secondary {
+        border-color: var(--border);
+        background: #eef4f0;
+        color: #294438;
       }
 
       .intro {
@@ -564,9 +850,36 @@
           padding-bottom: 17px;
         }
 
-        .topbar-note {
-          max-width: 120px;
-          text-align: right;
+        .topbar {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .header-controls {
+          width: 100%;
+          justify-content: space-between;
+          gap: 4px;
+        }
+
+        .header-control {
+          min-height: 36px;
+          padding: 0 7px;
+          font-size: 12px;
+        }
+
+        .header-control.help-control {
+          padding: 0 9px;
+        }
+
+        .menu-options {
+          right: auto;
+          left: 0;
+        }
+
+        .header-menu.theme-menu .menu-options {
+          right: 0;
+          left: auto;
         }
 
         .intro {
@@ -633,20 +946,51 @@
       }
     </style>
   </head>
-  <body>
+  <body data-theme="dark">
     <main class="app">
       <header class="topbar">
-        <a class="brand" href="#" aria-label="Yozuv bosh sahifa">
-          <span class="brand-mark" aria-hidden="true">Yo</span>
-          <span>Yozuv</span>
-        </a>
-        <span class="topbar-note">O‘zbek alifbosi konvertori</span>
+        <div class="brand">
+          <svg class="brand-mark" aria-hidden="true" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="12" fill="#087C5D"/>
+            <path d="M10 11.5c4.2-.9 7.5-.3 10 1.8v17c-2.5-2.1-5.8-2.7-10-1.8v-17Z" fill="#fff"/>
+            <path d="M30 11.5c-4.2-.9-7.5-.3-10 1.8v17c2.5-2.1 5.8-2.7 10-1.8v-17Z" fill="#CFF3E4"/>
+            <path d="M20 13.5v16.8M13.5 17h3.4m-3.4 4h3.4m6.2-4h3.4m-3.4 4h3.4" stroke="#08704F" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span id="header-title" data-i18n="headerTitle">O‘zbek alifbosi konvertori</span>
+        </div>
+        <nav class="header-controls" aria-label="Site controls" data-i18n-aria="siteControls">
+          <div class="header-menu">
+            <button class="header-control" id="language-button" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="language-menu">
+              <span id="language-label">O‘Z</span>
+              <svg class="chevron" aria-hidden="true" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m4 6 4 4 4-4"/></svg>
+            </button>
+            <div class="menu-options" id="language-menu" role="menu" hidden>
+              <button class="menu-option" type="button" role="menuitemradio" data-locale="uz" aria-checked="true">O‘zbekcha</button>
+              <button class="menu-option" type="button" role="menuitemradio" data-locale="ru" aria-checked="false">Русский</button>
+            </div>
+          </div>
+          <div class="header-menu theme-menu">
+            <button class="header-control" id="theme-button" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="theme-menu">
+              <span id="theme-label">Tizim bo‘yicha</span>
+              <svg class="chevron" aria-hidden="true" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m4 6 4 4 4-4"/></svg>
+            </button>
+            <div class="menu-options" id="theme-menu" role="menu" hidden>
+              <button class="menu-option" type="button" role="menuitemradio" data-theme-choice="system" aria-checked="true" data-i18n="themeSystem">Tizim bo‘yicha</button>
+              <button class="menu-option" type="button" role="menuitemradio" data-theme-choice="light" aria-checked="false" data-i18n="themeLight">Yorug‘</button>
+              <button class="menu-option" type="button" role="menuitemradio" data-theme-choice="dark" aria-checked="false" data-i18n="themeDark">Qorong‘i</button>
+            </div>
+          </div>
+          <button class="header-control help-control" id="help-button" type="button">
+            <svg aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="10" cy="10" r="8"/><path d="M7.9 7.5a2.2 2.2 0 1 1 3.8 1.5c-1 .9-1.7 1.2-1.7 2.4M10 14.2h.01"/></svg>
+            <span data-i18n="help">Yordam</span>
+          </button>
+        </nav>
       </header>
 
       <section class="intro" aria-labelledby="page-title">
-        <div class="eyebrow">Bepul va qulay konvertor</div>
-        <h1 id="page-title">O‘zbek yozuvini bir zumda o‘giring</h1>
-        <p>
+        <div class="eyebrow" data-i18n="eyebrow">Bepul va qulay konvertor</div>
+        <h1 id="page-title" data-i18n="pageTitle">O‘zbek yozuvini bir zumda o‘giring</h1>
+        <p data-i18n="introText">
           O‘zbek yozuvlari orasida matn va hujjatlarni o‘giring. Kerakli
           alifbolarni tanlang, matnni kiriting yoki faylni yuklang.
         </p>
@@ -657,30 +1001,30 @@
         </div>
       </section>
 
-      <section class="direction-card" aria-label="Yozuv turini tanlash">
+      <section class="direction-card" aria-label="Yozuv turini tanlash" data-i18n-aria="directionLabel">
         <div class="direction-field">
-          <label for="source-alphabet">Qaysi yozuvdan</label>
+          <label for="source-alphabet" data-i18n="sourceSelectLabel">Qaysi yozuvdan</label>
           <select id="source-alphabet">
-            <option value="cyrillic">O‘zbek kirill yozuvi</option>
-            <option value="latin-new">O‘zbek lotin yozuvi — yangi (Ö, Ğ, Ş, Ç)</option>
-            <option value="latin-apostrophe">O‘zbek lotin yozuvi — apostrofli</option>
+            <option value="cyrillic" data-i18n="alphabetCyrillic">O‘zbek kirill yozuvi</option>
+            <option value="latin-new" data-i18n="alphabetNewLatin">O‘zbek lotin yozuvi — yangi (Ö, Ğ, Ş, Ç)</option>
+            <option value="latin-apostrophe" data-i18n="alphabetApostrophe">O‘zbek lotin yozuvi — apostrofli</option>
           </select>
         </div>
         <div class="direction-arrow" aria-hidden="true">→</div>
         <div class="direction-field">
-          <label for="target-alphabet">Qaysi yozuvga</label>
+          <label for="target-alphabet" data-i18n="targetSelectLabel">Qaysi yozuvga</label>
           <select id="target-alphabet">
-            <option value="cyrillic">O‘zbek kirill yozuvi</option>
-            <option value="latin-new" selected>O‘zbek lotin yozuvi — yangi (Ö, Ğ, Ş, Ç)</option>
-            <option value="latin-apostrophe">O‘zbek lotin yozuvi — apostrofli</option>
+            <option value="cyrillic" data-i18n="alphabetCyrillic">O‘zbek kirill yozuvi</option>
+            <option value="latin-new" selected data-i18n="alphabetNewLatin">O‘zbek lotin yozuvi — yangi (Ö, Ğ, Ş, Ç)</option>
+            <option value="latin-apostrophe" data-i18n="alphabetApostrophe">O‘zbek lotin yozuvi — apostrofli</option>
           </select>
         </div>
       </section>
 
       <section aria-labelledby="file-heading">
         <div class="section-heading">
-          <h2 id="file-heading">Faylni konvertatsiya qilish</h2>
-          <p>Fayl qurilmangizda qayta ishlanadi</p>
+          <h2 id="file-heading" data-i18n="fileHeading">Faylni konvertatsiya qilish</h2>
+          <p data-i18n="filePrivacy">Fayl qurilmangizda qayta ishlanadi</p>
         </div>
 
         <div class="upload-zone" id="drop-zone">
@@ -690,10 +1034,10 @@
               <path d="M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4" />
             </svg>
           </div>
-          <p class="upload-title">Faylni shu yerga olib keling</p>
-          <p class="upload-help">.txt yoki .docx · 30 MB gacha (taxminan 30 bet)</p>
+          <p class="upload-title" data-i18n="uploadTitle">Faylni shu yerga olib keling</p>
+          <p class="upload-help" data-i18n="uploadHelp">.txt yoki .docx · 30 MB gacha (taxminan 30 bet)</p>
           <input class="file-picker" id="file-input" type="file" accept=".txt,.docx,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
-          <label class="button secondary" for="file-input">Fayl tanlash</label>
+          <label class="button secondary" for="file-input" data-i18n="chooseFile">Fayl tanlash</label>
         </div>
 
         <div class="selected-file" id="selected-file">
@@ -701,25 +1045,25 @@
             <div class="file-name" id="file-name"></div>
             <div class="file-size" id="file-size"></div>
           </div>
-          <button class="button" id="convert-file" type="button">Konvertatsiya qilish</button>
+          <button class="button" id="convert-file" type="button" data-i18n="convertFile">Konvertatsiya qilish</button>
         </div>
         <p class="status" id="file-status" role="status" aria-live="polite"></p>
 
         <section class="result-card" id="file-result" aria-labelledby="file-result-heading">
           <div class="result-head">
-            <h3 id="file-result-heading">Konvertatsiya natijasi</h3>
-            <a class="button" id="download-file" download="matn-lotin.txt" href="#">Natijani yuklab olish</a>
+            <h3 id="file-result-heading" data-i18n="resultHeading">Konvertatsiya natijasi</h3>
+            <a class="button" id="download-file" download="matn-lotin.txt" href="#" data-i18n="downloadResult">Natijani yuklab olish</a>
           </div>
           <pre class="result-preview" id="file-preview"></pre>
         </section>
       </section>
 
-      <div class="divider" aria-hidden="true">yoki matnni shu yerda o‘giring</div>
+      <div class="divider" aria-hidden="true" data-i18n="dividerText">yoki matnni shu yerda o‘giring</div>
 
       <section aria-labelledby="text-heading">
         <div class="section-heading">
-          <h2 id="text-heading">Matn bilan ishlash</h2>
-          <p>Matnni kiriting yoki joylang — natijani nusxalang</p>
+          <h2 id="text-heading" data-i18n="textHeading">Matn bilan ishlash</h2>
+          <p data-i18n="textHelp">Matnni kiriting yoki joylang — natijani nusxalang</p>
         </div>
         <div class="text-card">
           <div class="text-grid">
@@ -729,18 +1073,19 @@
                 id="source-text"
                 placeholder="Масалан: Ассалому алайкум! Ўзбекистон — гўзал юрт."
                 spellcheck="false"
+                data-i18n-placeholder="sourcePlaceholder"
               ></textarea>
             </div>
             <div class="swap" aria-hidden="true">→</div>
             <div class="text-field">
               <label id="converted-text-label" for="converted-text">O‘zbek lotin yozuvi — yangi</label>
-              <textarea id="converted-text" placeholder="Natija shu yerda ko‘rinadi" readonly></textarea>
+              <textarea id="converted-text" placeholder="Natija shu yerda ko‘rinadi" readonly data-i18n-placeholder="resultPlaceholder"></textarea>
             </div>
           </div>
           <div class="text-actions">
-            <button class="button" id="convert-text" type="button">Matnni konvertatsiya qilish</button>
-            <button class="button secondary" id="copy-text" type="button" disabled>Nusxalash</button>
-            <button class="button secondary" id="download-text" type="button" disabled>TXT yuklab olish</button>
+            <button class="button" id="convert-text" type="button" data-i18n="convertText">Matnni konvertatsiya qilish</button>
+            <button class="button secondary" id="copy-text" type="button" disabled data-i18n="copyText">Nusxalash</button>
+            <button class="button secondary" id="download-text" type="button" disabled data-i18n="downloadText">TXT yuklab olish</button>
             <span class="hint" id="text-status" role="status" aria-live="polite"></span>
           </div>
         </div>
@@ -749,13 +1094,251 @@
       <aside class="footer">
         <span class="footer-mark" aria-hidden="true">✦</span>
         <span>
-          <strong>Maxfiylik:</strong> fayllar serverga yuborilmaydi. Barcha
-          konvertatsiya bevosita brauzeringizda amalga oshiriladi.
+          <strong data-i18n="privacyLabel">Maxfiylik:</strong>
+          <span data-i18n="privacyText">fayllar serverga yuborilmaydi. Barcha konvertatsiya bevosita brauzeringizda amalga oshiriladi.</span>
         </span>
       </aside>
     </main>
 
+    <dialog class="help-dialog" id="help-dialog" aria-labelledby="help-title">
+      <div class="dialog-content">
+        <div class="dialog-head">
+          <h2 id="help-title" data-i18n="helpTitle">Yordam</h2>
+          <button class="dialog-close" id="help-close" type="button" aria-label="Close" data-i18n-aria="closeHelp">×</button>
+        </div>
+        <p data-i18n="helpIntro">Matnni yoki Word hujjatini boshqa o‘zbek yozuviga o‘tkazish uchun:</p>
+        <ol>
+          <li data-i18n="helpStep1">Yuqoridagi ro‘yxatlardan manba va kerakli yozuvni tanlang.</li>
+          <li data-i18n="helpStep2">Matnni maydonga kiriting yoki .txt / .docx faylni tanlang (30 MB gacha).</li>
+          <li data-i18n="helpStep3">Konvertatsiya tugmasini bosing, natijani tekshiring va yuklab oling yoki nusxalang.</li>
+        </ol>
+        <p data-i18n="helpPrivacy">Fayllaringiz brauzer ichida qayta ishlanadi va serverga yuborilmaydi.</p>
+      </div>
+    </dialog>
+
     <script>
+      const messages = {
+        uz: {
+          headerTitle: "O‘zbek alifbosi konvertori",
+          siteControls: "Sayt boshqaruvlari",
+          themeSystem: "Tizim bo‘yicha",
+          themeLight: "Yorug‘",
+          themeDark: "Qorong‘i",
+          help: "Yordam",
+          closeHelp: "Yordam oynasini yopish",
+          pageTitle: "O‘zbek yozuvini bir zumda o‘giring",
+          eyebrow: "Bepul va qulay konvertor",
+          introText: "O‘zbek yozuvlari orasida matn va hujjatlarni o‘giring. Kerakli alifbolarni tanlang, matnni kiriting yoki faylni yuklang.",
+          directionLabel: "Yozuv turini tanlash",
+          sourceSelectLabel: "Qaysi yozuvdan",
+          targetSelectLabel: "Qaysi yozuvga",
+          alphabetCyrillic: "O‘zbek kirill yozuvi",
+          alphabetNewLatin: "O‘zbek lotin yozuvi — yangi (Ö, Ğ, Ş, Ç)",
+          alphabetApostrophe: "O‘zbek lotin yozuvi — apostrofli",
+          fileHeading: "Faylni konvertatsiya qilish",
+          filePrivacy: "Fayl qurilmangizda qayta ishlanadi",
+          uploadTitle: "Faylni shu yerga olib keling",
+          uploadHelp: ".txt yoki .docx · 30 MB gacha (taxminan 30 bet)",
+          chooseFile: "Fayl tanlash",
+          convertFile: "Konvertatsiya qilish",
+          resultHeading: "Konvertatsiya natijasi",
+          downloadResult: "Natijani yuklab olish",
+          dividerText: "yoki matnni shu yerda o‘giring",
+          textHeading: "Matn bilan ishlash",
+          textHelp: "Matnni kiriting yoki joylang — natijani nusxalang",
+          sourcePlaceholder: "Masalan: Ассалому алайкум! Ўзбекистон — гўзал юрт.",
+          resultPlaceholder: "Natija shu yerda ko‘rinadi",
+          convertText: "Matnni konvertatsiya qilish",
+          copyText: "Nusxalash",
+          downloadText: "TXT yuklab olish",
+          privacyLabel: "Maxfiylik:",
+          privacyText: "fayllar serverga yuborilmaydi. Barcha konvertatsiya bevosita brauzeringizda amalga oshiriladi.",
+          helpTitle: "Yordam",
+          helpIntro: "Matnni yoki Word hujjatini boshqa o‘zbek yozuviga o‘tkazish uchun:",
+          helpStep1: "Yuqoridagi ro‘yxatlardan manba va kerakli yozuvni tanlang.",
+          helpStep2: "Matnni maydonga kiriting yoki .txt / .docx faylni tanlang (30 MB gacha).",
+          helpStep3: "Konvertatsiya tugmasini bosing, natijani tekshiring va yuklab oling yoki nusxalang.",
+          helpPrivacy: "Fayllaringiz brauzer ichida qayta ishlanadi va serverga yuborilmaydi.",
+          invalidFile: "Iltimos, .txt yoki .docx formatidagi faylni tanlang.",
+          oversizedFile: "Fayl hajmi 30 MB dan oshmasligi kerak.",
+          convertingFile: "Fayl konvertatsiya qilinmoqda…",
+          emptyDocument: "Hujjatda matn topilmadi.",
+          fileReady: "Tayyor — fayl qurilmangizda konvertatsiya qilindi.",
+          fileFailed: "Faylni konvertatsiya qilib bo‘lmadi.",
+          convertTextDone: "Matn konvertatsiya qilindi.",
+          enterText: "Avval matn kiriting.",
+          copiedText: "Natija nusxalandi.",
+          copyFailed: "Avtomatik nusxalash ishlamadi — matnni qo‘lda nusxalang.",
+          downloadedText: "TXT fayl yuklab olindi.",
+          downloadWord: "Word faylni yuklab olish",
+          downloadTxt: "TXT faylni yuklab olish",
+        },
+        ru: {
+          headerTitle: "Конвертер узбекского алфавита",
+          siteControls: "Настройки сайта",
+          themeSystem: "Как в системе",
+          themeLight: "Светлая",
+          themeDark: "Тёмная",
+          help: "Помощь",
+          closeHelp: "Закрыть окно помощи",
+          pageTitle: "Конвертируйте узбекский текст",
+          eyebrow: "Бесплатный и удобный конвертер",
+          introText: "Переводите текст и документы между узбекскими письменностями. Выберите алфавиты, введите текст или загрузите файл.",
+          directionLabel: "Выбор письменности",
+          sourceSelectLabel: "Из какой письменности",
+          targetSelectLabel: "В какую письменность",
+          alphabetCyrillic: "Узбекская кириллица",
+          alphabetNewLatin: "Новая узбекская латиница (Ö, Ğ, Ş, Ç)",
+          alphabetApostrophe: "Узбекская латиница с апострофами",
+          fileHeading: "Конвертация файла",
+          filePrivacy: "Файл обрабатывается на вашем устройстве",
+          uploadTitle: "Перетащите файл сюда",
+          uploadHelp: ".txt или .docx · до 30 МБ (примерно 30 страниц)",
+          chooseFile: "Выбрать файл",
+          convertFile: "Конвертировать",
+          resultHeading: "Результат конвертации",
+          downloadResult: "Скачать результат",
+          dividerText: "или конвертируйте текст здесь",
+          textHeading: "Работа с текстом",
+          textHelp: "Введите или вставьте текст — затем скопируйте результат",
+          sourcePlaceholder: "Например: Ассалому алайкум! Ўзбекистон — гўзал юрт.",
+          resultPlaceholder: "Здесь появится результат",
+          convertText: "Конвертировать текст",
+          copyText: "Скопировать",
+          downloadText: "Скачать TXT",
+          privacyLabel: "Конфиденциальность:",
+          privacyText: "файлы не отправляются на сервер. Конвертация выполняется прямо в браузере.",
+          helpTitle: "Помощь",
+          helpIntro: "Чтобы перевести текст или документ Word в другую узбекскую письменность:",
+          helpStep1: "Выберите исходную и целевую письменность в списках выше.",
+          helpStep2: "Введите текст или выберите файл .txt / .docx (до 30 МБ).",
+          helpStep3: "Нажмите «Конвертировать», проверьте результат и скачайте или скопируйте его.",
+          helpPrivacy: "Файлы обрабатываются в браузере и не отправляются на сервер.",
+          invalidFile: "Выберите файл в формате .txt или .docx.",
+          oversizedFile: "Размер файла не должен превышать 30 МБ.",
+          convertingFile: "Конвертация файла…",
+          emptyDocument: "В документе не найден текст.",
+          fileReady: "Готово — файл конвертирован на вашем устройстве.",
+          fileFailed: "Не удалось конвертировать файл.",
+          convertTextDone: "Текст конвертирован.",
+          enterText: "Сначала введите текст.",
+          copiedText: "Результат скопирован.",
+          copyFailed: "Не удалось скопировать автоматически — скопируйте текст вручную.",
+          downloadedText: "TXT-файл скачан.",
+          downloadWord: "Скачать Word-файл",
+          downloadTxt: "Скачать TXT-файл",
+        },
+      };
+      let currentLocale = "uz";
+      let selectedTheme = "system";
+      const systemTheme = window.matchMedia("(prefers-color-scheme: light)");
+
+      function translate(key) {
+        return messages[currentLocale][key] ?? messages.uz[key] ?? key;
+      }
+
+      function applyLocale(locale) {
+        currentLocale = locale;
+        document.documentElement.lang = locale === "ru" ? "ru" : "uz";
+        document.title = `${translate("headerTitle")} — Yozuv`;
+        document.querySelectorAll("[data-i18n]").forEach((element) => {
+          element.textContent = translate(element.dataset.i18n);
+        });
+        document.querySelectorAll("[data-i18n-placeholder]").forEach((element) => {
+          element.placeholder = translate(element.dataset.i18nPlaceholder);
+        });
+        document.querySelectorAll("[data-i18n-aria]").forEach((element) => {
+          element.setAttribute("aria-label", translate(element.dataset.i18nAria));
+        });
+        document.querySelector("#language-label").textContent = locale === "ru" ? "РУС" : "O‘Z";
+        document.querySelectorAll("[data-locale]").forEach((option) => {
+          option.setAttribute("aria-checked", String(option.dataset.locale === locale));
+        });
+        updateDirection();
+        updateThemeLabel();
+      }
+
+      function applyTheme() {
+        const theme = selectedTheme === "system"
+          ? (systemTheme.matches ? "light" : "dark")
+          : selectedTheme;
+        document.body.dataset.theme = theme;
+        document.querySelector("#theme-color").content = theme === "light" ? "#f4f7f5" : "#111827";
+        document.querySelectorAll("[data-theme-choice]").forEach((option) => {
+          option.setAttribute("aria-checked", String(option.dataset.themeChoice === selectedTheme));
+        });
+        updateThemeLabel();
+      }
+
+      function updateThemeLabel() {
+        const key = selectedTheme === "system"
+          ? "themeSystem"
+          : selectedTheme === "light"
+            ? "themeLight"
+            : "themeDark";
+        document.querySelector("#theme-label").textContent = translate(key);
+      }
+
+      function setupMenu(button, menu, onSelect) {
+        button.addEventListener("click", () => {
+          const opening = menu.hidden;
+          document.querySelectorAll(".menu-options").forEach((otherMenu) => {
+            otherMenu.hidden = true;
+            document.querySelector(`[aria-controls="${otherMenu.id}"]`).setAttribute("aria-expanded", "false");
+          });
+          menu.hidden = !opening;
+          button.setAttribute("aria-expanded", String(opening));
+          if (opening) menu.querySelector("button").focus();
+        });
+        menu.addEventListener("click", (event) => {
+          const option = event.target.closest("button");
+          if (!option) return;
+          onSelect(option);
+          menu.hidden = true;
+          button.setAttribute("aria-expanded", "false");
+          button.focus();
+        });
+      }
+
+      setupMenu(
+        document.querySelector("#language-button"),
+        document.querySelector("#language-menu"),
+        (option) => applyLocale(option.dataset.locale),
+      );
+      setupMenu(
+        document.querySelector("#theme-button"),
+        document.querySelector("#theme-menu"),
+        (option) => {
+          selectedTheme = option.dataset.themeChoice;
+          applyTheme();
+        },
+      );
+      document.addEventListener("click", (event) => {
+        if (event.target.closest(".header-menu")) return;
+        document.querySelectorAll(".menu-options").forEach((menu) => {
+          menu.hidden = true;
+          document.querySelector(`[aria-controls="${menu.id}"]`).setAttribute("aria-expanded", "false");
+        });
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape") return;
+        document.querySelectorAll(".menu-options").forEach((menu) => {
+          if (menu.hidden) return;
+          menu.hidden = true;
+          document.querySelector(`[aria-controls="${menu.id}"]`).setAttribute("aria-expanded", "false");
+        });
+      });
+      systemTheme.addEventListener("change", () => {
+        if (selectedTheme === "system") applyTheme();
+      });
+
+      const helpDialog = document.querySelector("#help-dialog");
+      document.querySelector("#help-button").addEventListener("click", () => helpDialog.showModal());
+      document.querySelector("#help-close").addEventListener("click", () => helpDialog.close());
+      helpDialog.addEventListener("click", (event) => {
+        if (event.target === helpDialog) helpDialog.close();
+      });
+
       const cyrillicToLatin = {
         А: "A", а: "a", Б: "B", б: "b", В: "V", в: "v", Г: "G", г: "g",
         Д: "D", д: "d", Е: "E", е: "e", Ё: "Yo", ё: "yo", Ж: "J", ж: "j",
@@ -779,9 +1362,9 @@
         ["ya", "я"], ["sh", "ш"], ["ch", "ч"], ["ts", "ц"],
       ];
       const alphabets = {
-        cyrillic: "O‘zbek kirill yozuvi",
-        "latin-new": "O‘zbek lotin yozuvi — yangi (Ö, Ğ, Ş, Ç)",
-        "latin-apostrophe": "O‘zbek lotin yozuvi — apostrofli",
+        cyrillic: "alphabetCyrillic",
+        "latin-new": "alphabetNewLatin",
+        "latin-apostrophe": "alphabetApostrophe",
       };
       const MAX_FILE_SIZE = 30 * 1024 * 1024;
       const MAX_UNCOMPRESSED_SIZE = 150 * 1024 * 1024;
@@ -885,8 +1468,8 @@
       }
 
       function updateDirection() {
-        const sourceName = alphabets[sourceAlphabet.value];
-        const targetName = alphabets[targetAlphabet.value];
+        const sourceName = translate(alphabets[sourceAlphabet.value]);
+        const targetName = translate(alphabets[targetAlphabet.value]);
         document.querySelector("#flow-source").textContent = sourceName;
         document.querySelector("#flow-target").textContent = targetName;
         document.querySelector("#source-text-label").textContent = sourceName;
@@ -915,7 +1498,7 @@
           fileInput.value = "";
           selectedFile.classList.remove("is-visible");
           fileResult.classList.remove("is-visible");
-          setStatus(fileStatus, "Iltimos, .txt yoki .docx formatidagi faylni tanlang.", true);
+          setStatus(fileStatus, translate("invalidFile"), true);
           return;
         }
         if (file.size > MAX_FILE_SIZE) {
@@ -923,7 +1506,7 @@
           fileInput.value = "";
           selectedFile.classList.remove("is-visible");
           fileResult.classList.remove("is-visible");
-          setStatus(fileStatus, "Fayl hajmi 30 MB dan oshmasligi kerak.", true);
+          setStatus(fileStatus, translate("oversizedFile"), true);
           return;
         }
         currentFile = file;
@@ -1167,7 +1750,7 @@
         if (!currentFile) return;
         const button = document.querySelector("#convert-file");
         button.disabled = true;
-        setStatus(fileStatus, "Fayl konvertatsiya qilinmoqda…");
+        setStatus(fileStatus, translate("convertingFile"));
         try {
           const isDocx = currentFile.name.toLowerCase().endsWith(".docx");
           let output;
@@ -1186,17 +1769,17 @@
             mimeType = "text/plain;charset=utf-8";
             extension = ".txt";
           }
-          filePreview.textContent = preview.slice(0, 5000) || "Hujjatda matn topilmadi.";
+          filePreview.textContent = preview.slice(0, 5000) || translate("emptyDocument");
           if (fileDownloadUrl) URL.revokeObjectURL(fileDownloadUrl);
           fileDownloadUrl = URL.createObjectURL(new Blob([output], { type: mimeType }));
           const baseName = currentFile.name.replace(/\.(txt|docx)$/i, "");
           downloadFile.href = fileDownloadUrl;
           downloadFile.download = `${baseName}-konvertatsiya${extension}`;
-          downloadFile.textContent = `${isDocx ? "Word" : "TXT"} faylni yuklab olish`;
+          downloadFile.textContent = translate(isDocx ? "downloadWord" : "downloadTxt");
           fileResult.classList.add("is-visible");
-          setStatus(fileStatus, "Tayyor — fayl qurilmangizda konvertatsiya qilindi.");
+          setStatus(fileStatus, translate("fileReady"));
         } catch (error) {
-          setStatus(fileStatus, error.message || "Faylni konvertatsiya qilib bo‘lmadi.", true);
+          setStatus(fileStatus, error.message || translate("fileFailed"), true);
         } finally {
           button.disabled = false;
         }
@@ -1206,17 +1789,17 @@
         convertedText.value = convertText(sourceText.value);
         copyText.disabled = !convertedText.value;
         downloadText.disabled = !convertedText.value;
-        setStatus(textStatus, convertedText.value ? "Matn konvertatsiya qilindi." : "Avval matn kiriting.");
+        setStatus(textStatus, convertedText.value ? translate("convertTextDone") : translate("enterText"));
       });
 
       copyText.addEventListener("click", async () => {
         try {
           await navigator.clipboard.writeText(convertedText.value);
-          setStatus(textStatus, "Natija nusxalandi.");
+          setStatus(textStatus, translate("copiedText"));
         } catch {
           convertedText.focus();
           convertedText.select();
-          setStatus(textStatus, "Avtomatik nusxalash ishlamadi — matnni qo‘lda nusxalang.", true);
+          setStatus(textStatus, translate("copyFailed"), true);
         }
       });
 
@@ -1228,9 +1811,11 @@
         link.href = textDownloadUrl;
         link.download = "matn-konvertatsiya.txt";
         link.click();
-        setStatus(textStatus, "TXT fayl yuklab olindi.");
+        setStatus(textStatus, translate("downloadedText"));
       });
 
+      applyTheme();
+      applyLocale(currentLocale);
       updateDirection();
       window.addEventListener("beforeunload", () => {
         if (fileDownloadUrl) URL.revokeObjectURL(fileDownloadUrl);
