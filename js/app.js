@@ -48,7 +48,7 @@ const messages = {
     helpFilesStep2: "Bir martada 15 tagacha .txt, .doc, .docx, .pdf, .xlsx yoki .pptx fayl tanlang. Har bir fayl 200 MB gacha bo‘lishi mumkin.",
     helpFilesStep3: "«Konvertatsiya qilish» tugmasini bosing. Fayllar navbat bilan qayta ishlanadi; katta hujjatlar ko‘proq vaqt olishi mumkin.",
     helpFilesStep4: "Muvaffaqiyatli natijalarni alohida yoki barchasini bitta ZIP arxivi bilan yuklab oling. Xatolik yuz bergan fayllar ro‘yxatda alohida ko‘rsatiladi.",
-    helpOfficeDetails: "DOCX, XLSX va PPTX matni hujjat tuzilishi va formatlashini saqlagan holda o‘zgartiriladi. Eski DOC formati matni TXT fayliga aylantiriladi, uning formatlashi va rasmlari saqlanmaydi. Eski .xls va .ppt formatlari qo‘llab-quvvatlanmaydi.",
+    helpOfficeDetails: "DOCX, XLSX va PPTX matni hujjat tuzilishi va formatlashini saqlagan holda o‘zgartiriladi. Eski DOC faylining matni konvertatsiya qilinib, RTF matnli Word hujjati .doc kengaytmasi bilan yuklanadi; uning formatlashi va rasmlari saqlanmaydi. Eski .xls va .ppt formatlari qo‘llab-quvvatlanmaydi.",
     helpPdfTitle: "PDF fayllar",
     helpPdfDetails: "PDF sahifalari tasvir ko‘rinishida saqlanadi; topilgan matn taxminan qayta yoziladi. Natijada matn ajratib olinmaydi, havolalar va formalar saqlanmaydi, sahifa maketi va rangi biroz o‘zgarishi mumkin. Matn qatlamisiz skanerlangan PDF fayllar konvertatsiya qilinmaydi.",
     helpPrivacyTitle: "Maxfiylik va katta fayllar",
@@ -129,7 +129,7 @@ const messages = {
     helpFilesStep2: "Можно выбрать до 15 файлов .txt, .doc, .docx, .pdf, .xlsx или .pptx за раз. Размер каждого — до 200 МБ.",
     helpFilesStep3: "Нажмите «Конвертировать». Файлы обрабатываются по очереди; большие документы могут обрабатываться дольше.",
     helpFilesStep4: "Скачивайте успешные результаты по одному или все сразу одним ZIP-архивом. Ошибки отображаются в списке.",
-    helpOfficeDetails: "Текст в DOCX, XLSX и PPTX изменяется с сохранением структуры и форматирования. Текст старого DOC преобразуется в TXT, без исходного оформления и изображений. Форматы .xls и .ppt не поддерживаются.",
+    helpOfficeDetails: "Текст в DOCX, XLSX и PPTX изменяется с сохранением структуры и форматирования. Текст старого DOC конвертируется в RTF-документ Word с расширением .doc; исходное оформление и изображения не сохраняются. Форматы .xls и .ppt не поддерживаются.",
     helpPdfTitle: "PDF-файлы",
     helpPdfDetails: "Страницы PDF сохраняются как изображения, найденный текст заменяется приблизительно. В результате текст нельзя выделить, ссылки и формы не сохраняются, оформление и цвета могут немного измениться. Сканированные PDF без текстового слоя не поддерживаются.",
     helpPrivacyTitle: "Конфиденциальность и большие файлы",
@@ -918,6 +918,19 @@ function extractLegacyDocBlocks(blocks) {
   return lines;
 }
 
+function createLegacyDocBlob(text) {
+  const escaped = text.replace(/\r\n?|\n/g, "\n").replace(/[\\{}]|[^\x20-\x7e]|\t/g, (character) => {
+    if (character === "\n") return "\\par\n";
+    if (character === "\t") return "\\tab ";
+    if (character === "\\") return "\\\\";
+    if (character === "{") return "\\{";
+    if (character === "}") return "\\}";
+    const codeUnit = character.charCodeAt(0);
+    return `\\u${codeUnit > 0x7fff ? codeUnit - 0x10000 : codeUnit}?`;
+  });
+  return new Blob([`{\\rtf1\\ansi\\deff0\\uc1 ${escaped}}`], { type: "application/rtf" });
+}
+
 async function convertLegacyDoc(file) {
   const moduleUrl = new URL("./vendor/doc-parser/dist/msdoc/parser.js", document.baseURI).href;
   const { parseMsDoc } = await import(moduleUrl);
@@ -928,7 +941,7 @@ async function convertLegacyDoc(file) {
   }
   const output = convertText(source);
   return {
-    blob: new Blob([output], { type: "text/plain;charset=utf-8" }),
+    blob: createLegacyDocBlob(output),
     preview: output,
   };
 }
@@ -1198,6 +1211,7 @@ function appendFileResult(file, { output, preview, extension, mimeType, error })
     link.href = URL.createObjectURL(blob);
     link.download = outputName;
     const downloadLabels = {
+      ".doc": "downloadWord",
       ".docx": "downloadWord",
       ".pdf": "downloadPdf",
       ".pptx": "downloadPowerPoint",
@@ -1251,8 +1265,8 @@ document.querySelector("#convert-file").addEventListener("click", async () => {
           const result = await convertLegacyDoc(file);
           output = result.blob;
           preview = result.preview;
-          mimeType = "text/plain;charset=utf-8";
-          outputExtension = ".txt";
+          mimeType = "application/rtf";
+          outputExtension = ".doc";
         } else if (extension === "docx") {
           const result = await convertDocx(file);
           output = result.bytes;

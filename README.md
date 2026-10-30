@@ -19,7 +19,7 @@ Files are processed locally in your browser and are not uploaded to a server.
 | Input format | Output format | Notes |
 | --- | --- | --- |
 | `.txt` | `.txt` | Text is converted in chunks to handle large files. |
-| `.doc` | `.txt` | Text is extracted from the legacy Word document. Original formatting and images are not preserved. |
+| `.doc` | `.doc` | Extracted text is converted and saved as an RTF-compatible Word document. Original formatting and images are not preserved. |
 | `.docx` | `.docx` | Text is converted while the document archive and text formatting are retained. |
 | `.xlsx` | `.xlsx` | Text in supported workbook XML parts is converted. |
 | `.pptx` | `.pptx` | Text in supported presentation XML parts is converted. |
