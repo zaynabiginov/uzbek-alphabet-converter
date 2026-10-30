@@ -955,6 +955,44 @@ textarea:focus-visible {
   color: #6ed9b7;
 }
 
+.site-footer {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.github-link {
+  display: flex;
+  min-height: 84px;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 27px;
+  border-radius: 15px;
+  background: #1f2937;
+  color: #08c98a;
+  font-size: 19px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color 150ms ease, color 150ms ease, transform 150ms ease;
+}
+
+.github-link:hover {
+  background: #273449;
+  color: #35e2a8;
+  transform: translateY(-1px);
+}
+
+.github-link:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.github-link svg {
+  width: 25px;
+  height: 25px;
+  flex: 0 0 auto;
+}
+
 @media (max-width: 680px) {
   body {
     padding: 16px 12px 28px;
@@ -1090,6 +1128,12 @@ textarea:focus-visible {
   .text-actions .hint {
     width: 100%;
     margin-left: 0;
+  }
+
+  .github-link {
+    min-height: 72px;
+    padding: 17px 19px;
+    font-size: 17px;
   }
 }
 
