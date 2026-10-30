@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="O‘zbek kirill yozuvini yangi lotin alifbosiga o‘tkazing. Matnni kiriting yoki TXT faylni yuklang."
+      content="O‘zbek yozuvlarini o‘giring: matn, Word, PDF, Excel va PowerPoint fayllarini brauzerda konvertatsiya qiling."
     />
     <meta id="theme-color" name="theme-color" content="#111827" />
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
@@ -54,7 +54,6 @@
       </header>
 
       <section class="intro" aria-labelledby="page-title">
-        <div class="eyebrow" data-i18n="eyebrow">Bepul va qulay konvertor</div>
         <h1 id="page-title" data-i18n="pageTitle">O‘zbek yozuvini bir zumda o‘giring</h1>
         <p data-i18n="introText">
           O‘zbek yozuvlari orasida matn va hujjatlarni o‘giring. Kerakli
@@ -101,8 +100,8 @@
             </svg>
           </div>
           <p class="upload-title" data-i18n="uploadTitle">Faylni shu yerga olib keling</p>
-          <p class="upload-help" data-i18n="uploadHelp">.txt yoki .docx · 30 MB gacha (taxminan 30 bet)</p>
-          <input class="file-picker" id="file-input" type="file" accept=".txt,.docx,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+          <p class="upload-help" data-i18n="uploadHelp">.txt, .doc, .docx, .pdf, .xlsx yoki .pptx · 15 tagacha fayl · har biri 200 MB gacha</p>
+          <input class="file-picker" id="file-input" type="file" multiple accept=".txt,.doc,.docx,.pdf,.xlsx,.pptx,text/plain,application/msword,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.presentationml.presentation" />
           <label class="button secondary" for="file-input" data-i18n="chooseFile">Fayl tanlash</label>
         </div>
 
@@ -110,6 +109,7 @@
           <div class="file-details">
             <div class="file-name" id="file-name"></div>
             <div class="file-size" id="file-size"></div>
+            <ul class="file-list" id="file-list"></ul>
           </div>
           <button class="button" id="convert-file" type="button" data-i18n="convertFile">Konvertatsiya qilish</button>
         </div>
@@ -118,9 +118,9 @@
         <section class="result-card" id="file-result" aria-labelledby="file-result-heading">
           <div class="result-head">
             <h3 id="file-result-heading" data-i18n="resultHeading">Konvertatsiya natijasi</h3>
-            <a class="button" id="download-file" download="matn-lotin.txt" href="#" data-i18n="downloadResult">Natijani yuklab olish</a>
+            <button class="button secondary" id="download-all" type="button" disabled data-i18n="downloadAll">Barchasini ZIP qilib yuklab olish</button>
           </div>
-          <pre class="result-preview" id="file-preview"></pre>
+          <div class="file-results" id="file-results"></div>
         </section>
       </section>
 
@@ -170,15 +170,40 @@
       <div class="dialog-content">
         <div class="dialog-head">
           <h2 id="help-title" data-i18n="helpTitle">Yordam</h2>
-          <button class="dialog-close" id="help-close" type="button" aria-label="Close" data-i18n-aria="closeHelp">×</button>
+          <button class="dialog-close" id="help-close" type="button" aria-label="Close" data-i18n-aria="closeHelp"><span aria-hidden="true">×</span></button>
         </div>
-        <p data-i18n="helpIntro">Matnni yoki Word hujjatini boshqa o‘zbek yozuviga o‘tkazish uchun:</p>
-        <ol>
-          <li data-i18n="helpStep1">Yuqoridagi ro‘yxatlardan manba va kerakli yozuvni tanlang.</li>
-          <li data-i18n="helpStep2">Matnni maydonga kiriting yoki .txt / .docx faylni tanlang (30 MB gacha).</li>
-          <li data-i18n="helpStep3">Konvertatsiya tugmasini bosing, natijani tekshiring va yuklab oling yoki nusxalang.</li>
-        </ol>
-        <p data-i18n="helpPrivacy">Fayllaringiz brauzer ichida qayta ishlanadi va serverga yuborilmaydi.</p>
+        <div class="help-content">
+          <section>
+            <h3 data-i18n="helpAlphabetsTitle">Yozuv turini tanlash</h3>
+            <p data-i18n="helpAlphabetsText">Manba va natija alifbosini ro‘yxatlardan tanlang: kirill, yangi lotin (Ö, Ğ, Ş, Ç) yoki apostrofli lotin.</p>
+          </section>
+          <section>
+            <h3 data-i18n="helpTextTitle">Matnni o‘girish</h3>
+            <ol>
+              <li data-i18n="helpTextStep1">Matnni chap tomondagi maydonga yozing yoki joylang.</li>
+              <li data-i18n="helpTextStep2">«Matnni konvertatsiya qilish» tugmasini bosing.</li>
+              <li data-i18n="helpTextStep3">O‘ng tomondagi natijani tekshiring; «Nusxalash» tugmasi natijani almashish buferiga oladi.</li>
+            </ol>
+          </section>
+          <section>
+            <h3 data-i18n="helpFilesTitle">Fayl formatlari</h3>
+            <ol>
+              <li data-i18n="helpFilesStep1">«Fayl tanlash»ni bosing yoki fayllarni yuklash maydoniga sudrab olib keling.</li>
+              <li data-i18n="helpFilesStep2">Bir martada 15 tagacha .txt, .doc, .docx, .pdf, .xlsx yoki .pptx fayl tanlang. Har bir fayl 200 MB gacha bo‘lishi mumkin.</li>
+              <li data-i18n="helpFilesStep3">«Konvertatsiya qilish» tugmasini bosing. Fayllar navbat bilan qayta ishlanadi; katta hujjatlar ko‘proq vaqt olishi mumkin.</li>
+              <li data-i18n="helpFilesStep4">Muvaffaqiyatli natijalarni alohida yoki barchasini bitta ZIP arxivi bilan yuklab oling. Xatolik yuz bergan fayllar ro‘yxatda alohida ko‘rsatiladi.</li>
+            </ol>
+            <p data-i18n="helpOfficeDetails">DOCX, XLSX va PPTX matni hujjat tuzilishi va formatlashini saqlagan holda o‘zgartiriladi. Eski DOC formati TXT fayliga aylantiriladi, uning formatlashi saqlanmaydi. Eski .xls va .ppt formatlari qo‘llab-quvvatlanmaydi.</p>
+          </section>
+          <section>
+            <h3 data-i18n="helpPdfTitle">PDF-файлы</h3>
+            <p data-i18n="helpPdfDetails">PDF sahifalari tasvir ko‘rinishida saqlanadi; topilgan matn taxminan qayta yoziladi. Natijada matn ajratib olinmaydi, sahifa maketi va rangi biroz o‘zgarishi mumkin. Matn qatlamisiz skanerlangan PDF fayllar konvertatsiya qilinmaydi.</p>
+          </section>
+          <section>
+            <h3 data-i18n="helpPrivacyTitle">Maxfiylik va katta fayllar</h3>
+            <p data-i18n="helpPrivacy">Fayllaringiz serverga yuborilmaydi. Ular brauzeringiz xotirasida qayta ishlanadi. Katta fayllar ko‘proq xotira talab qiladi; ishlov berish paytida sahifani yopmang.</p>
+          </section>
+        </div>
       </div>
     </dialog>
 

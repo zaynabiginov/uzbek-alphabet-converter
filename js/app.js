@@ -8,7 +8,6 @@ const messages = {
     help: "Yordam",
     closeHelp: "Yordam oynasini yopish",
     pageTitle: "O‘zbek yozuvini bir zumda o‘giring",
-    eyebrow: "Bepul va qulay konvertor",
     introText: "O‘zbek yozuvlari orasida matn va hujjatlarni o‘giring. Kerakli alifbolarni tanlang, matnni kiriting yoki faylni yuklang.",
     directionLabel: "Yozuv turini tanlash",
     sourceSelectLabel: "Qaysi yozuvdan",
@@ -19,11 +18,13 @@ const messages = {
     fileHeading: "Faylni konvertatsiya qilish",
     filePrivacy: "Fayl qurilmangizda qayta ishlanadi",
     uploadTitle: "Faylni shu yerga olib keling",
-    uploadHelp: ".txt yoki .docx · 30 MB gacha (taxminan 30 bet)",
+    uploadHelp: ".txt, .doc, .docx, .pdf, .xlsx yoki .pptx · 15 tagacha fayl · har biri 200 MB gacha",
     chooseFile: "Fayl tanlash",
     convertFile: "Konvertatsiya qilish",
     resultHeading: "Konvertatsiya natijasi",
     downloadResult: "Natijani yuklab olish",
+    downloadAll: "Barchasini ZIP qilib yuklab olish",
+    downloadedAll: "Barcha muvaffaqiyatli fayllar ZIP arxivida yuklandi.",
     dividerText: "yoki matnni shu yerda o‘giring",
     textHeading: "Matn bilan ishlash",
     textHelp: "Matnni kiriting yoki joylang — natijani nusxalang",
@@ -35,16 +36,37 @@ const messages = {
     privacyLabel: "Maxfiylik:",
     privacyText: "fayllar serverga yuborilmaydi. Barcha konvertatsiya bevosita brauzeringizda amalga oshiriladi.",
     helpTitle: "Yordam",
-    helpIntro: "Matnni yoki Word hujjatini boshqa o‘zbek yozuviga o‘tkazish uchun:",
-    helpStep1: "Yuqoridagi ro‘yxatlardan manba va kerakli yozuvni tanlang.",
-    helpStep2: "Matnni maydonga kiriting yoki .txt / .docx faylni tanlang (30 MB gacha).",
-    helpStep3: "Konvertatsiya tugmasini bosing, natijani tekshiring va yuklab oling yoki nusxalang.",
-    helpPrivacy: "Fayllaringiz brauzer ichida qayta ishlanadi va serverga yuborilmaydi.",
-    invalidFile: "Iltimos, .txt yoki .docx formatidagi faylni tanlang.",
-    oversizedFile: "Fayl hajmi 30 MB dan oshmasligi kerak.",
-    convertingFile: "Fayl konvertatsiya qilinmoqda…",
+    helpAlphabetsTitle: "Yozuv turini tanlash",
+    helpAlphabetsText: "Manba va natija alifbosini ro‘yxatlardan tanlang: kirill, yangi lotin (Ö, Ğ, Ş, Ç) yoki apostrofli lotin.",
+    helpTextTitle: "Matnni o‘girish",
+    helpTextStep1: "Matnni chap tomondagi maydonga yozing yoki joylang.",
+    helpTextStep2: "«Matnni konvertatsiya qilish» tugmasini bosing.",
+    helpTextStep3: "O‘ng tomondagi natijani tekshiring; «Nusxalash» tugmasi natijani almashish buferiga oladi.",
+    helpFilesTitle: "Fayl formatlari",
+    helpFilesStep1: "«Fayl tanlash»ni bosing yoki fayllarni yuklash maydoniga sudrab olib keling.",
+    helpFilesStep2: "Bir martada 15 tagacha .txt, .doc, .docx, .pdf, .xlsx yoki .pptx fayl tanlang. Har bir fayl 200 MB gacha bo‘lishi mumkin.",
+    helpFilesStep3: "«Konvertatsiya qilish» tugmasini bosing. Fayllar navbat bilan qayta ishlanadi; katta hujjatlar ko‘proq vaqt olishi mumkin.",
+    helpFilesStep4: "Muvaffaqiyatli natijalarni alohida yoki barchasini bitta ZIP arxivi bilan yuklab oling. Xatolik yuz bergan fayllar ro‘yxatda alohida ko‘rsatiladi.",
+    helpOfficeDetails: "DOCX, XLSX va PPTX matni hujjat tuzilishi va formatlashini saqlagan holda o‘zgartiriladi. Eski DOC formati matni TXT fayliga aylantiriladi, uning formatlashi va rasmlari saqlanmaydi. Eski .xls va .ppt formatlari qo‘llab-quvvatlanmaydi.",
+    helpPdfTitle: "PDF fayllar",
+    helpPdfDetails: "PDF sahifalari tasvir ko‘rinishida saqlanadi; topilgan matn taxminan qayta yoziladi. Natijada matn ajratib olinmaydi, havolalar va formalar saqlanmaydi, sahifa maketi va rangi biroz o‘zgarishi mumkin. Matn qatlamisiz skanerlangan PDF fayllar konvertatsiya qilinmaydi.",
+    helpPrivacyTitle: "Maxfiylik va katta fayllar",
+    helpPrivacy: "Fayllaringiz serverga yuborilmaydi. Ular brauzeringiz xotirasida qayta ishlanadi. Katta fayllar ko‘proq xotira talab qiladi; ishlov berish paytida sahifani yopmang.",
+    invalidFile: "Faqat .txt, .doc, .docx, .pdf, .xlsx yoki .pptx fayllarini tanlang.",
+    oversizedFile: "Har bir fayl hajmi 200 MB dan oshmasligi kerak.",
+    noValidFiles: "Tanlangan fayllar orasida qo‘llab-quvvatlanadigan fayl topilmadi.",
+    selectedFiles: "{count} ta fayl tanlandi",
+    skippedFiles: "{count} ta fayl o‘tkazib yuborildi: format noto‘g‘ri, fayl 200 MB dan katta yoki 15 ta fayl chegarasidan oshdi.",
+    processingFiles: "{total} ta fayldan {current}-si qayta ishlanmoqda: {name}",
+    processingPdfPage: "{file}: PDF sahifasi {page}/{total} qayta ishlanmoqda.",
+    completedFiles: "Tayyor: {success} ta fayl konvertatsiya qilindi, {failed} tasida xatolik.",
+    archiveFailed: "ZIP arxivini yaratib bo‘lmadi: {error}",
+    packingArchive: "ZIP arxivi tayyorlanmoqda: {current}/{total} — {name}",
+    pdfNoText: "PDF ichida ajratib olinadigan matn yo‘q. Skanerlangan PDF fayllar hozircha qo‘llab-quvvatlanmaydi.",
+    fileProcessed: "Muvaffaqiyatli konvertatsiya qilindi.",
+    fileProcessFailed: "Konvertatsiya qilib bo‘lmadi: {error}",
+    previewResult: "Natijani ko‘rish",
     emptyDocument: "Hujjatda matn topilmadi.",
-    fileReady: "Tayyor — fayl qurilmangizda konvertatsiya qilindi.",
     fileFailed: "Faylni konvertatsiya qilib bo‘lmadi.",
     convertTextDone: "Matn konvertatsiya qilindi.",
     enterText: "Avval matn kiriting.",
@@ -53,6 +75,9 @@ const messages = {
     downloadedText: "TXT fayl yuklab olindi.",
     downloadWord: "Word faylni yuklab olish",
     downloadTxt: "TXT faylni yuklab olish",
+    downloadPdf: "PDF faylni yuklab olish",
+    downloadExcel: "Excel faylni yuklab olish",
+    downloadPowerPoint: "PowerPoint faylni yuklab olish",
   },
   ru: {
     headerTitle: "Конвертер узбекского алфавита",
@@ -63,7 +88,6 @@ const messages = {
     help: "Помощь",
     closeHelp: "Закрыть окно помощи",
     pageTitle: "Конвертируйте узбекский текст",
-    eyebrow: "Бесплатный и удобный конвертер",
     introText: "Переводите текст и документы между узбекскими письменностями. Выберите алфавиты, введите текст или загрузите файл.",
     directionLabel: "Выбор письменности",
     sourceSelectLabel: "Из какой письменности",
@@ -74,11 +98,13 @@ const messages = {
     fileHeading: "Конвертация файла",
     filePrivacy: "Файл обрабатывается на вашем устройстве",
     uploadTitle: "Перетащите файл сюда",
-    uploadHelp: ".txt или .docx · до 30 МБ (примерно 30 страниц)",
+    uploadHelp: ".txt, .doc, .docx, .pdf, .xlsx или .pptx · до 15 файлов · до 200 МБ каждый",
     chooseFile: "Выбрать файл",
     convertFile: "Конвертировать",
     resultHeading: "Результат конвертации",
     downloadResult: "Скачать результат",
+    downloadAll: "Скачать все ZIP-архивом",
+    downloadedAll: "Все успешно обработанные файлы скачаны одним ZIP-архивом.",
     dividerText: "или конвертируйте текст здесь",
     textHeading: "Работа с текстом",
     textHelp: "Введите или вставьте текст — затем скопируйте результат",
@@ -90,16 +116,37 @@ const messages = {
     privacyLabel: "Конфиденциальность:",
     privacyText: "файлы не отправляются на сервер. Конвертация выполняется прямо в браузере.",
     helpTitle: "Помощь",
-    helpIntro: "Чтобы перевести текст или документ Word в другую узбекскую письменность:",
-    helpStep1: "Выберите исходную и целевую письменность в списках выше.",
-    helpStep2: "Введите текст или выберите файл .txt / .docx (до 30 МБ).",
-    helpStep3: "Нажмите «Конвертировать», проверьте результат и скачайте или скопируйте его.",
-    helpPrivacy: "Файлы обрабатываются в браузере и не отправляются на сервер.",
-    invalidFile: "Выберите файл в формате .txt или .docx.",
-    oversizedFile: "Размер файла не должен превышать 30 МБ.",
-    convertingFile: "Конвертация файла…",
+    helpAlphabetsTitle: "Выбор письменности",
+    helpAlphabetsText: "Выберите исходный и целевой алфавиты: кириллицу, новую латиницу (Ö, Ğ, Ş, Ç) или латиницу с апострофами.",
+    helpTextTitle: "Конвертация текста",
+    helpTextStep1: "Введите или вставьте текст в левое поле.",
+    helpTextStep2: "Нажмите «Конвертировать текст».",
+    helpTextStep3: "Проверьте результат справа. Кнопка «Скопировать» поместит его в буфер обмена.",
+    helpFilesTitle: "Форматы файлов",
+    helpFilesStep1: "Нажмите «Выбрать файл» или перетащите файлы в область загрузки.",
+    helpFilesStep2: "Можно выбрать до 15 файлов .txt, .doc, .docx, .pdf, .xlsx или .pptx за раз. Размер каждого — до 200 МБ.",
+    helpFilesStep3: "Нажмите «Конвертировать». Файлы обрабатываются по очереди; большие документы могут обрабатываться дольше.",
+    helpFilesStep4: "Скачивайте успешные результаты по одному или все сразу одним ZIP-архивом. Ошибки отображаются в списке.",
+    helpOfficeDetails: "Текст в DOCX, XLSX и PPTX изменяется с сохранением структуры и форматирования. Текст старого DOC преобразуется в TXT, без исходного оформления и изображений. Форматы .xls и .ppt не поддерживаются.",
+    helpPdfTitle: "PDF-файлы",
+    helpPdfDetails: "Страницы PDF сохраняются как изображения, найденный текст заменяется приблизительно. В результате текст нельзя выделить, ссылки и формы не сохраняются, оформление и цвета могут немного измениться. Сканированные PDF без текстового слоя не поддерживаются.",
+    helpPrivacyTitle: "Конфиденциальность и большие файлы",
+    helpPrivacy: "Файлы не отправляются на сервер и обрабатываются в памяти браузера. Большие файлы требуют больше памяти; не закрывайте страницу во время обработки.",
+    invalidFile: "Поддерживаются только файлы .txt, .doc, .docx, .pdf, .xlsx и .pptx.",
+    oversizedFile: "Размер каждого файла не должен превышать 200 МБ.",
+    noValidFiles: "Среди выбранных файлов нет файлов поддерживаемого формата.",
+    selectedFiles: "Выбрано файлов: {count}",
+    skippedFiles: "Пропущено файлов: {count} — неверный формат, размер больше 200 МБ или превышен лимит в 15 файлов.",
+    processingFiles: "Обработка файла {current} из {total}: {name}",
+    processingPdfPage: "{file}: обработка страницы PDF {page} из {total}.",
+    completedFiles: "Готово: успешно конвертировано — {success}, с ошибками — {failed}.",
+    archiveFailed: "Не удалось создать ZIP-архив: {error}",
+    packingArchive: "Создание ZIP-архива: {current}/{total} — {name}",
+    pdfNoText: "В PDF нет извлекаемого текста. Сканированные PDF пока не поддерживаются.",
+    fileProcessed: "Успешно конвертирован.",
+    fileProcessFailed: "Не удалось конвертировать: {error}",
+    previewResult: "Показать результат",
     emptyDocument: "В документе не найден текст.",
-    fileReady: "Готово — файл конвертирован на вашем устройстве.",
     fileFailed: "Не удалось конвертировать файл.",
     convertTextDone: "Текст конвертирован.",
     enterText: "Сначала введите текст.",
@@ -108,6 +155,9 @@ const messages = {
     downloadedText: "TXT-файл скачан.",
     downloadWord: "Скачать Word-файл",
     downloadTxt: "Скачать TXT-файл",
+    downloadPdf: "Скачать PDF-файл",
+    downloadExcel: "Скачать Excel-файл",
+    downloadPowerPoint: "Скачать PowerPoint-файл",
   },
 };
 let currentLocale = "uz";
@@ -116,6 +166,13 @@ const systemTheme = window.matchMedia("(prefers-color-scheme: light)");
 
 function translate(key) {
   return messages[currentLocale][key] ?? messages.uz[key] ?? key;
+}
+
+function formatMessage(key, values = {}) {
+  return Object.entries(values).reduce(
+    (message, [name, value]) => message.replaceAll(`{${name}}`, String(value)),
+    translate(key),
+  );
 }
 
 function applyLocale(locale) {
@@ -135,7 +192,7 @@ function applyLocale(locale) {
   document.querySelectorAll("[data-locale]").forEach((option) => {
     option.setAttribute("aria-checked", String(option.dataset.locale === locale));
   });
-  updateDirection();
+  updateDirection(false);
   updateThemeLabel();
 }
 
@@ -247,20 +304,32 @@ const alphabets = {
   "latin-new": "alphabetNewLatin",
   "latin-apostrophe": "alphabetApostrophe",
 };
-const MAX_FILE_SIZE = 30 * 1024 * 1024;
-const MAX_UNCOMPRESSED_SIZE = 150 * 1024 * 1024;
+const MAX_FILES = 15;
+const MAX_FILE_SIZE = 200 * 1024 * 1024;
+const MAX_UNCOMPRESSED_SIZE = 500 * 1024 * 1024;
+const PDF_RENDER_SCALE = 1.5;
+const PDF_MAX_RENDER_DIMENSION = 5000;
 const encoder = new TextEncoder();
 const decoder = new TextDecoder("utf-8");
+const crc32Table = new Uint32Array(256);
+for (let tableIndex = 0; tableIndex < crc32Table.length; tableIndex += 1) {
+  let value = tableIndex;
+  for (let bit = 0; bit < 8; bit += 1) {
+    value = (value >>> 1) ^ (value & 1 ? 0xedb88320 : 0);
+  }
+  crc32Table[tableIndex] = value >>> 0;
+}
 
 const fileInput = document.querySelector("#file-input");
 const dropZone = document.querySelector("#drop-zone");
 const selectedFile = document.querySelector("#selected-file");
 const fileName = document.querySelector("#file-name");
 const fileSize = document.querySelector("#file-size");
+const fileList = document.querySelector("#file-list");
 const fileStatus = document.querySelector("#file-status");
 const fileResult = document.querySelector("#file-result");
-const filePreview = document.querySelector("#file-preview");
-const downloadFile = document.querySelector("#download-file");
+const fileResults = document.querySelector("#file-results");
+const downloadAllButton = document.querySelector("#download-all");
 const sourceAlphabet = document.querySelector("#source-alphabet");
 const targetAlphabet = document.querySelector("#target-alphabet");
 const sourceText = document.querySelector("#source-text");
@@ -268,9 +337,25 @@ const convertedText = document.querySelector("#converted-text");
 const copyText = document.querySelector("#copy-text");
 const downloadText = document.querySelector("#download-text");
 const textStatus = document.querySelector("#text-status");
-let currentFile = null;
-let fileDownloadUrl = null;
+let currentFiles = [];
+let skippedFileCount = 0;
+let fileDownloadUrls = [];
+let convertedFiles = [];
+let convertedArchive = null;
+let archiveDownloadUrl = null;
 let textDownloadUrl = null;
+let pdfjsModulePromise = null;
+
+async function loadPdfJs() {
+  if (!pdfjsModulePromise) {
+    const moduleUrl = new URL("./vendor/pdfjs/pdf.min.mjs", document.baseURI).href;
+    pdfjsModulePromise = import(moduleUrl).catch((error) => {
+      pdfjsModulePromise = null;
+      throw new Error(`PDF kutubxonasini yuklab bo‘lmadi: ${error.message}`);
+    });
+  }
+  return pdfjsModulePromise;
+}
 
 function convertCyrillicToLatin(text) {
   const letters = Array.from(text);
@@ -348,16 +433,61 @@ function convertText(text, from = sourceAlphabet.value, to = targetAlphabet.valu
   return to === "latin-new" ? formatNewLatin(text) : formatApostropheLatin(text);
 }
 
-function updateDirection() {
+async function convertTextFile(file) {
+  const decoder = new TextDecoder("utf-8");
+  const outputChunks = [];
+  let preview = "";
+  let carry = "";
+  const chunkSize = 1024 * 1024;
+
+  for (let offset = 0; offset < file.size; offset += chunkSize) {
+    const end = Math.min(offset + chunkSize, file.size);
+    const bytes = await file.slice(offset, end).arrayBuffer();
+    const decoded = decoder.decode(bytes, { stream: end < file.size });
+    const text = carry + decoded;
+    let safeText = text;
+
+    if (end < file.size) {
+      const characters = Array.from(text);
+      const safeLength = Math.max(0, characters.length - 8);
+      safeText = characters.slice(0, safeLength).join("");
+      carry = characters.slice(safeLength).join("");
+    } else {
+      safeText += decoder.decode();
+      carry = "";
+    }
+
+    if (safeText) {
+      const converted = convertText(safeText);
+      outputChunks.push(encoder.encode(converted));
+      if (preview.length < 5000) preview += converted.slice(0, 5000 - preview.length);
+    }
+  }
+
+  if (carry) {
+    const converted = convertText(carry);
+    outputChunks.push(encoder.encode(converted));
+    if (preview.length < 5000) preview += converted.slice(0, 5000 - preview.length);
+  }
+
+  return {
+    blob: new Blob(outputChunks, { type: "text/plain;charset=utf-8" }),
+    preview,
+  };
+}
+
+function updateDirection(clearResults = true) {
   const sourceName = translate(alphabets[sourceAlphabet.value]);
   const targetName = translate(alphabets[targetAlphabet.value]);
   document.querySelector("#flow-source").textContent = sourceName;
   document.querySelector("#flow-target").textContent = targetName;
   document.querySelector("#source-text-label").textContent = sourceName;
   document.querySelector("#converted-text-label").textContent = targetName;
-  fileResult.classList.remove("is-visible");
-  setStatus(fileStatus, "");
-  setStatus(textStatus, "");
+  if (clearResults) {
+    clearFileResults();
+    setStatus(fileStatus, "");
+    setStatus(textStatus, "");
+  }
 }
 
 function formatSize(bytes) {
@@ -371,42 +501,161 @@ function setStatus(element, message, isError = false) {
   element.classList.toggle("is-error", isError);
 }
 
-function setFile(file) {
-  if (!file) return;
-  const name = file.name.toLowerCase();
-  if (!name.endsWith(".txt") && !name.endsWith(".docx")) {
-    currentFile = null;
-    fileInput.value = "";
-    selectedFile.classList.remove("is-visible");
-    fileResult.classList.remove("is-visible");
-    setStatus(fileStatus, translate("invalidFile"), true);
-    return;
-  }
-  if (file.size > MAX_FILE_SIZE) {
-    currentFile = null;
-    fileInput.value = "";
-    selectedFile.classList.remove("is-visible");
-    fileResult.classList.remove("is-visible");
-    setStatus(fileStatus, translate("oversizedFile"), true);
-    return;
-  }
-  currentFile = file;
-  fileName.textContent = file.name;
-  fileSize.textContent = formatSize(file.size);
-  selectedFile.classList.add("is-visible");
+function clearFileResults() {
+  for (const url of fileDownloadUrls) URL.revokeObjectURL(url);
+  fileDownloadUrls = [];
+  if (archiveDownloadUrl) URL.revokeObjectURL(archiveDownloadUrl);
+  archiveDownloadUrl = null;
+  convertedArchive = null;
+  convertedFiles = [];
+  downloadAllButton.disabled = true;
+  fileResults.replaceChildren();
   fileResult.classList.remove("is-visible");
-  setStatus(fileStatus, "");
+}
+
+function setFiles(fileCollection) {
+  const files = Array.from(fileCollection);
+  if (!files.length) return;
+
+  const supported = files.filter((file) => /\.(txt|doc|docx|pdf|xlsx|pptx)$/i.test(file.name));
+  const withinSizeLimit = supported.filter((file) => file.size <= MAX_FILE_SIZE);
+  const currentSelection = withinSizeLimit.slice(0, MAX_FILES);
+  const skippedCount = files.length - currentSelection.length;
+
+  clearFileResults();
+  skippedFileCount = skippedCount;
+  currentFiles = currentSelection;
+  fileInput.value = "";
+  fileList.replaceChildren();
+
+  for (const file of currentFiles) {
+    const item = document.createElement("li");
+    item.textContent = `${file.name} · ${formatSize(file.size)}`;
+    fileList.append(item);
+  }
+
+  const hasSelection = currentFiles.length > 0;
+  selectedFile.classList.toggle("is-visible", hasSelection);
+  if (hasSelection) {
+    fileName.textContent = formatMessage("selectedFiles", { count: currentFiles.length });
+    fileSize.textContent = "";
+  }
+
+  if (!hasSelection) {
+    setStatus(fileStatus, formatMessage("noValidFiles"), true);
+  } else if (skippedCount > 0) {
+    setStatus(fileStatus, formatMessage("skippedFiles", { count: skippedCount }), true);
+  } else {
+    setStatus(fileStatus, "");
+  }
 }
 
 function crc32(bytes) {
-  let crc = 0xffffffff;
+  return (updateCrc32(0xffffffff, bytes) ^ 0xffffffff) >>> 0;
+}
+
+function updateCrc32(crc, bytes) {
   for (const byte of bytes) {
-    crc ^= byte;
-    for (let bit = 0; bit < 8; bit += 1) {
-      crc = (crc >>> 1) ^ (crc & 1 ? 0xedb88320 : 0);
+    crc = crc32Table[(crc ^ byte) & 0xff] ^ (crc >>> 8);
+  }
+  return crc >>> 0;
+}
+
+async function crc32Blob(blob) {
+  if (typeof blob.stream !== "function") {
+    return crc32(new Uint8Array(await blob.arrayBuffer()));
+  }
+  const reader = blob.stream().getReader();
+  let crc = 0xffffffff;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      crc = updateCrc32(crc, value);
     }
+  } finally {
+    reader.releaseLock();
   }
   return (crc ^ 0xffffffff) >>> 0;
+}
+
+function createArchiveEntry(file, name, checksum, offset) {
+  const nameBytes = encoder.encode(name);
+  const flags = 0x0800;
+  const date = 0x0021;
+  const local = new Uint8Array(30 + nameBytes.length);
+  const localView = new DataView(local.buffer);
+  localView.setUint32(0, 0x04034b50, true);
+  localView.setUint16(4, 20, true);
+  localView.setUint16(6, flags, true);
+  localView.setUint16(8, 0, true);
+  localView.setUint16(12, date, true);
+  localView.setUint32(14, checksum, true);
+  localView.setUint32(18, file.blob.size, true);
+  localView.setUint32(22, file.blob.size, true);
+  localView.setUint16(26, nameBytes.length, true);
+  local.set(nameBytes, 30);
+
+  const central = new Uint8Array(46 + nameBytes.length);
+  const centralView = new DataView(central.buffer);
+  centralView.setUint32(0, 0x02014b50, true);
+  centralView.setUint16(4, 20, true);
+  centralView.setUint16(6, 20, true);
+  centralView.setUint16(8, flags, true);
+  centralView.setUint16(12, date, true);
+  centralView.setUint32(16, checksum, true);
+  centralView.setUint32(20, file.blob.size, true);
+  centralView.setUint32(24, file.blob.size, true);
+  centralView.setUint16(28, nameBytes.length, true);
+  centralView.setUint32(42, offset, true);
+  central.set(nameBytes, 46);
+  return { local, nameBytes, central };
+}
+
+async function buildDownloadArchive(files) {
+  const chunks = [];
+  const centralChunks = [];
+  const names = new Set();
+  let offset = 0;
+  for (const [index, file] of files.entries()) {
+    setStatus(fileStatus, formatMessage("packingArchive", {
+      current: index + 1,
+      total: files.length,
+      name: file.name,
+    }));
+    const baseName = file.name.split(/[\\/]/).pop();
+    const dot = baseName.lastIndexOf(".");
+    const stem = dot > 0 ? baseName.slice(0, dot) : baseName;
+    const extension = dot > 0 ? baseName.slice(dot) : "";
+    let name = baseName;
+    for (let suffix = 2; names.has(name.toLocaleLowerCase()); suffix += 1) {
+      name = `${stem} (${suffix})${extension}`;
+    }
+    names.add(name.toLocaleLowerCase());
+    if (file.blob.size > 0xffffffff) {
+      throw new Error("ZIP64 kerak bo‘lgan fayllar to‘plamini bitta arxivga joylab bo‘lmaydi.");
+    }
+    const checksum = await crc32Blob(file.blob);
+    const entry = createArchiveEntry(file, name, checksum, offset);
+    if (offset + entry.local.length + file.blob.size > 0xffffffff) {
+      throw new Error("ZIP64 kerak bo‘lgan fayllar to‘plamini bitta arxivga joylab bo‘lmaydi.");
+    }
+    chunks.push(entry.local, file.blob);
+    centralChunks.push(entry.central);
+    offset += entry.local.length + file.blob.size;
+  }
+  if (files.length > 0xffff) throw new Error("Arxivga juda ko‘p fayl joylanmoqda.");
+  const centralDirectory = joinBytes(centralChunks);
+  if (centralDirectory.length > 0xffffffff) throw new Error("ZIP katalogi 4 GB chegarasidan oshdi.");
+  const end = new Uint8Array(22);
+  const endView = new DataView(end.buffer);
+  endView.setUint32(0, 0x06054b50, true);
+  endView.setUint16(8, files.length, true);
+  endView.setUint16(10, files.length, true);
+  endView.setUint32(12, centralDirectory.length, true);
+  endView.setUint32(16, offset, true);
+  chunks.push(centralDirectory, end);
+  return new Blob(chunks, { type: "application/zip" });
 }
 
 function findZipDirectory(bytes, view) {
@@ -417,7 +666,7 @@ function findZipDirectory(bytes, view) {
       if (offset + 22 + commentLength === bytes.length) return offset;
     }
   }
-  throw new Error("Word fayl arxivi buzilgan yoki DOCX formatida emas.");
+  throw new Error("Office fayl arxivi buzilgan yoki format tanilmadi.");
 }
 
 async function readZipEntries(bytes) {
@@ -433,7 +682,7 @@ async function readZipEntries(bytes) {
   const entries = [];
   for (let index = 0; index < count; index += 1) {
     if (view.getUint32(offset, true) !== 0x02014b50) {
-      throw new Error("Word faylining ZIP katalogini o‘qib bo‘lmadi.");
+      throw new Error("Office faylining ZIP katalogini o‘qib bo‘lmadi.");
     }
     const nameLength = view.getUint16(offset + 28, true);
     const extraLength = view.getUint16(offset + 30, true);
@@ -442,7 +691,7 @@ async function readZipEntries(bytes) {
     const uncompressedSize = view.getUint32(offset + 24, true);
     totalUncompressedSize += uncompressedSize;
     if (totalUncompressedSize > MAX_UNCOMPRESSED_SIZE) {
-      throw new Error("Hujjat ochilgandan keyin 150 MB dan oshadi. Kichikroq fayl yuklang.");
+      throw new Error("Office fayli ochilgandan keyin hajmi 500 MB dan oshadi.");
     }
     const localOffset = view.getUint32(offset + 42, true);
     if (compressedSize === 0xffffffff || uncompressedSize === 0xffffffff || localOffset === 0xffffffff) {
@@ -464,7 +713,7 @@ async function readZipEntries(bytes) {
       data: null,
       replacement: null,
     };
-    if (entry.flags & 1) throw new Error("Parol bilan himoyalangan Word faylini ochib bo‘lmaydi.");
+    if (entry.flags & 1) throw new Error("Parol bilan himoyalangan Office faylini ochib bo‘lmaydi.");
     const localNameLength = view.getUint16(localOffset + 26, true);
     const localExtraLength = view.getUint16(localOffset + 28, true);
     const dataOffset = localOffset + 30 + localNameLength + localExtraLength;
@@ -479,18 +728,42 @@ async function readZipEntries(bytes) {
 }
 
 async function decompressEntry(entry) {
-  if (entry.method === 0) return entry.data;
-  if (entry.method !== 8) throw new Error(`Word arxivining ${entry.method} siqish usuli qo‘llab-quvvatlanmaydi.`);
+  if (entry.method === 0) {
+    if (entry.data.length !== entry.uncompressedSize || entry.data.length > MAX_UNCOMPRESSED_SIZE) {
+      throw new Error("Hujjatdagi siqilmagan yozuv hajmi noto‘g‘ri.");
+    }
+    return entry.data;
+  }
+  if (entry.method !== 8) throw new Error(`Office arxivining ${entry.method} siqish usuli qo‘llab-quvvatlanmaydi.`);
   if (typeof DecompressionStream === "undefined") {
-    throw new Error("DOCX ochish uchun zamonaviy Chrome, Edge yoki Firefox brauzeridan foydalaning.");
+    throw new Error("Arxivni ochish uchun zamonaviy Chrome, Edge yoki Firefox brauzeridan foydalaning.");
   }
   try {
     const stream = new Blob([entry.data]).stream().pipeThrough(new DecompressionStream("deflate-raw"));
-    const result = new Uint8Array(await new Response(stream).arrayBuffer());
+    const reader = stream.getReader();
+    const chunks = [];
+    let totalLength = 0;
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        totalLength += value.length;
+        if (totalLength > entry.uncompressedSize || totalLength > MAX_UNCOMPRESSED_SIZE) {
+          throw new Error("Hujjat ochilganda e’lon qilingan hajmdan oshdi.");
+        }
+        chunks.push(value);
+      }
+    } catch (error) {
+      await reader.cancel(error);
+      throw error;
+    } finally {
+      reader.releaseLock();
+    }
+    const result = joinBytes(chunks);
     if (result.length !== entry.uncompressedSize) throw new Error("Arxiv yozuvi o‘lchami mos kelmadi.");
     return result;
   } catch (error) {
-    throw new Error(`Word hujjatini ochib bo‘lmadi: ${error.message}`);
+    throw new Error(`Office hujjatini ochib bo‘lmadi: ${error.message}`);
   }
 }
 
@@ -551,7 +824,7 @@ function buildZip(entries, comment) {
 
   const centralDirectory = joinBytes(centralChunks);
   if (entries.length > 0xffff || centralDirectory.length > 0xffffffff) {
-    throw new Error("Word fayli juda katta bo‘lgani uchun ZIP64 formati kerak.");
+    throw new Error("Office arxivi juda katta bo‘lgani uchun ZIP64 formati kerak.");
   }
   const end = new Uint8Array(22 + comment.length);
   const endView = new DataView(end.buffer);
@@ -562,13 +835,13 @@ function buildZip(entries, comment) {
   endView.setUint32(16, localOffset, true);
   endView.setUint16(20, comment.length, true);
   end.set(comment, 22);
-  return joinBytes([...localChunks, centralDirectory, end]);
+  return new Blob([...localChunks, centralDirectory, end], { type: "application/zip" });
 }
 
 function convertWordXml(xmlText) {
   const documentXml = new DOMParser().parseFromString(xmlText, "application/xml");
   if (documentXml.querySelector("parsererror")) {
-    throw new Error("Word hujjatidagi XML matnini o‘qib bo‘lmadi.");
+    throw new Error("Office hujjatidagi XML matnini o‘qib bo‘lmadi.");
   }
   const textNodes = Array.from(documentXml.getElementsByTagNameNS("*", "t"))
     .filter((node) => node.namespaceURI?.includes("wordprocessingml"));
@@ -579,6 +852,24 @@ function convertWordXml(xmlText) {
   return {
     xml: new XMLSerializer().serializeToString(documentXml),
     preview,
+    textNodeCount: textNodes.length,
+  };
+}
+
+function convertOfficeXml(xmlText) {
+  const documentXml = new DOMParser().parseFromString(xmlText, "application/xml");
+  if (documentXml.querySelector("parsererror")) {
+    throw new Error("Office hujjatidagi XML matnini o‘qib bo‘lmadi.");
+  }
+  const textNodes = Array.from(documentXml.getElementsByTagNameNS("*", "t"))
+    .filter((node) => {
+      const namespace = node.namespaceURI || "";
+      return namespace.includes("spreadsheetml") || namespace.includes("drawingml");
+    });
+  for (const node of textNodes) node.textContent = convertText(node.textContent);
+  return {
+    xml: new XMLSerializer().serializeToString(documentXml),
+    preview: textNodes.map((node) => node.textContent).filter(Boolean).join("\n"),
     textNodeCount: textNodes.length,
   };
 }
@@ -607,9 +898,262 @@ async function convertDocx(file) {
   };
 }
 
+function extractLegacyDocBlocks(blocks) {
+  const lines = [];
+  for (const block of blocks) {
+    if (block.type === "paragraph") {
+      if (block.text) lines.push(block.text);
+      continue;
+    }
+    if (block.type !== "table") continue;
+    for (const row of block.rows) {
+      const cells = row.cells.map((cell) =>
+        extractLegacyDocBlocks(cell.blocks ?? cell.paragraphs).join("\n"),
+      );
+      lines.push(cells.join("\t"));
+    }
+  }
+  return lines;
+}
+
+async function convertLegacyDoc(file) {
+  const moduleUrl = new URL("./vendor/doc-parser/dist/msdoc/parser.js", document.baseURI).href;
+  const { parseMsDoc } = await import(moduleUrl);
+  const parsed = parseMsDoc(new Uint8Array(await file.arrayBuffer()));
+  const source = extractLegacyDocBlocks(parsed.blocks).join("\n");
+  if (!source.trim()) {
+    throw new Error("DOC hujjatida konvertatsiya qilinadigan matn topilmadi.");
+  }
+  const output = convertText(source);
+  return {
+    blob: new Blob([output], { type: "text/plain;charset=utf-8" }),
+    preview: output,
+  };
+}
+
+async function convertOpenXml(file, format) {
+  const bytes = new Uint8Array(await file.arrayBuffer());
+  const archive = await readZipEntries(bytes);
+  const isExcel = format === "xlsx";
+  const rootPart = isExcel ? "xl/workbook.xml" : "ppt/presentation.xml";
+  if (!archive.entries.some((entry) => entry.name === rootPart)) {
+    throw new Error(isExcel ? "Excel XLSX faylining tuzilishi noto‘g‘ri." : "PowerPoint PPTX faylining tuzilishi noto‘g‘ri.");
+  }
+  const parts = archive.entries.filter((entry) =>
+    new RegExp(`^${isExcel ? "xl" : "ppt"}/.*\\.xml$`, "i").test(entry.name),
+  );
+  let preview = "";
+  let convertedCount = 0;
+  for (const part of parts) {
+    const xml = decoder.decode(await decompressEntry(part));
+    const converted = convertOfficeXml(xml);
+    if (converted.textNodeCount > 0) {
+      part.replacement = encoder.encode(converted.xml);
+      convertedCount += converted.textNodeCount;
+      if (converted.preview && preview.length < 5000) {
+        const preferred = isExcel
+          ? /xl\/(sharedStrings|worksheets|charts)\//i.test(part.name)
+          : /ppt\/(slides|charts)\//i.test(part.name);
+        preview = preferred && !preview
+          ? converted.preview.slice(0, 5000)
+          : `${preview}\n${converted.preview}`.slice(0, 5000);
+      }
+    }
+  }
+  if (convertedCount === 0) {
+    throw new Error(isExcel
+      ? "Excel faylida matn topilmadi."
+      : "PowerPoint faylida matn topilmadi.");
+  }
+  return {
+    bytes: buildZip(archive.entries, archive.comment),
+    preview,
+  };
+}
+
+function sampleCanvasColor(context, x, y, width, height) {
+  const canvas = context.canvas;
+  const samples = [
+    [x - 2, y - height / 2],
+    [x + width + 2, y - height / 2],
+    [x + width / 2, y - height - 2],
+    [x + width / 2, y + 2],
+  ];
+  for (const [sampleX, sampleY] of samples) {
+    const pixelX = Math.max(0, Math.min(canvas.width - 1, Math.round(sampleX)));
+    const pixelY = Math.max(0, Math.min(canvas.height - 1, Math.round(sampleY)));
+    const [red, green, blue] = context.getImageData(pixelX, pixelY, 1, 1).data;
+    if (red > 225 && green > 225 && blue > 225) return `rgb(${red}, ${green}, ${blue})`;
+  }
+  return "#ffffff";
+}
+
+function redrawConvertedPdfText(context, viewport, item, styles, pdfjs) {
+  const converted = convertText(item.str);
+  if (!converted || converted === item.str) return converted;
+  const transform = pdfjs.Util.transform(viewport.transform, item.transform);
+  const x = transform[4];
+  const y = transform[5];
+  const fontHeight = Math.hypot(transform[2], transform[3]);
+  if (!Number.isFinite(fontHeight) || fontHeight < 1) return converted;
+  const angle = Math.atan2(transform[1], transform[0]);
+  const oldWidth = Math.max(1, item.width * viewport.scale);
+  const style = styles[item.fontName];
+  const fontFamily = style?.fontFamily?.replace(/["']/g, "") || "Arial, sans-serif";
+
+  context.save();
+  context.translate(x, y);
+  context.rotate(angle);
+  context.font = `${fontHeight}px "${fontFamily}"`;
+  const newWidth = Math.max(oldWidth, context.measureText(converted).width + 2);
+  context.fillStyle = sampleCanvasColor(context, x, y, oldWidth, fontHeight);
+  context.fillRect(-1, -fontHeight, newWidth + 2, fontHeight * 1.3);
+  context.fillStyle = "#111111";
+  context.textBaseline = "alphabetic";
+  context.fillText(converted, 0, 0);
+  context.restore();
+  return converted;
+}
+
+function jpegBlobFromCanvas(canvas) {
+  return new Promise((resolve, reject) => {
+    canvas.toBlob((blob) => {
+      if (blob) resolve(blob);
+      else reject(new Error("PDF sahifasini rasmga aylantirib bo‘lmadi."));
+    }, "image/jpeg", 0.88);
+  });
+}
+
+async function convertPdf(file) {
+  const pdfjs = await loadPdfJs();
+  pdfjs.GlobalWorkerOptions.workerSrc = new URL("./vendor/pdfjs/pdf.worker.min.mjs", document.baseURI).href;
+  const loadingTask = pdfjs.getDocument({ data: new Uint8Array(await file.arrayBuffer()) });
+  let pdf;
+  const pages = [];
+  let preview = "";
+  let textItemCount = 0;
+  try {
+    pdf = await loadingTask.promise;
+    for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber += 1) {
+      setStatus(fileStatus, formatMessage("processingPdfPage", {
+        file: file.name,
+        page: pageNumber,
+        total: pdf.numPages,
+      }));
+      const page = await pdf.getPage(pageNumber);
+      const baseViewport = page.getViewport({ scale: 1 });
+      const scale = Math.min(PDF_RENDER_SCALE, PDF_MAX_RENDER_DIMENSION / Math.max(baseViewport.width, baseViewport.height));
+      const viewport = page.getViewport({ scale });
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.ceil(viewport.width);
+      canvas.height = Math.ceil(viewport.height);
+      const context = canvas.getContext("2d", { alpha: false });
+      if (!context) throw new Error("PDF sahifasini chizish uchun canvas yaratilmadi.");
+      context.fillStyle = "#ffffff";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      await page.render({ canvasContext: context, viewport }).promise;
+
+      const textContent = await page.getTextContent();
+      const pageText = [];
+      for (const item of textContent.items) {
+        if (!("str" in item) || !item.str) continue;
+        textItemCount += 1;
+        pageText.push(redrawConvertedPdfText(context, viewport, item, textContent.styles, pdfjs));
+      }
+      if (preview.length < 5000) {
+        preview += `${pageText.join("")}\n`.slice(0, 5000 - preview.length);
+      }
+      const image = new Uint8Array(await (await jpegBlobFromCanvas(canvas)).arrayBuffer());
+      pages.push({
+        width: viewport.width / scale,
+        height: viewport.height / scale,
+        imageWidth: canvas.width,
+        imageHeight: canvas.height,
+        image,
+      });
+      canvas.width = 0;
+      canvas.height = 0;
+      page.cleanup();
+    }
+  } finally {
+    await loadingTask.destroy();
+  }
+  if (textItemCount === 0) {
+    throw new Error(translate("pdfNoText"));
+  }
+  return {
+    bytes: buildImagePdf(pages),
+    preview,
+  };
+}
+
+function buildImagePdf(pages) {
+  if (pages.length === 0) throw new Error("PDF faylida sahifa topilmadi.");
+  const objects = [];
+  const pageReferences = pages.map((_page, index) => `${3 + index * 3} 0 R`).join(" ");
+  objects.push({ id: 1, content: [encoder.encode("<< /Type /Catalog /Pages 2 0 R >>")] });
+  objects.push({
+    id: 2,
+    content: [encoder.encode(`<< /Type /Pages /Kids [${pageReferences}] /Count ${pages.length} >>`)],
+  });
+
+  pages.forEach((page, index) => {
+    const pageId = 3 + index * 3;
+    const contentId = pageId + 1;
+    const imageId = pageId + 2;
+    const width = page.width.toFixed(3);
+    const height = page.height.toFixed(3);
+    objects.push({
+      id: pageId,
+      content: [encoder.encode(
+        `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${width} ${height}] /Resources << /XObject << /Im0 ${imageId} 0 R >> >> /Contents ${contentId} 0 R >>`,
+      )],
+    });
+    const drawing = encoder.encode(`q ${width} 0 0 ${height} 0 0 cm /Im0 Do Q`);
+    objects.push({
+      id: contentId,
+      content: [
+        encoder.encode(`<< /Length ${drawing.length} >>\nstream\n`),
+        drawing,
+        encoder.encode("\nendstream"),
+      ],
+    });
+    objects.push({
+      id: imageId,
+      content: [
+        encoder.encode(
+          `<< /Type /XObject /Subtype /Image /Width ${page.imageWidth} /Height ${page.imageHeight} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${page.image.length} >>\nstream\n`,
+        ),
+        page.image,
+        encoder.encode("\nendstream"),
+      ],
+    });
+  });
+
+  const chunks = [new Uint8Array([37, 80, 68, 70, 45, 49, 46, 52, 10, 37, 226, 227, 207, 211, 10])];
+  const offsets = [0];
+  let length = chunks[0].length;
+  for (const object of objects) {
+    offsets[object.id] = length;
+    const header = encoder.encode(`${object.id} 0 obj\n`);
+    const footer = encoder.encode("\nendobj\n");
+    chunks.push(header, ...object.content, footer);
+    length += header.length + object.content.reduce((total, chunk) => total + chunk.length, 0) + footer.length;
+  }
+  const xrefOffset = length;
+  const xref = [
+    `xref\n0 ${objects.length + 1}\n`,
+    "0000000000 65535 f \n",
+    ...offsets.slice(1).map((offset) => `${String(offset).padStart(10, "0")} 00000 n \n`),
+  ].join("");
+  const trailer = `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`;
+  chunks.push(encoder.encode(xref), encoder.encode(trailer));
+  return new Blob(chunks, { type: "application/pdf" });
+}
+
 sourceAlphabet.addEventListener("change", updateDirection);
 targetAlphabet.addEventListener("change", updateDirection);
-fileInput.addEventListener("change", () => setFile(fileInput.files[0]));
+fileInput.addEventListener("change", () => setFiles(fileInput.files));
 
 for (const eventName of ["dragenter", "dragover"]) {
   dropZone.addEventListener(eventName, (event) => {
@@ -625,44 +1169,153 @@ for (const eventName of ["dragleave", "drop"]) {
   });
 }
 
-dropZone.addEventListener("drop", (event) => setFile(event.dataTransfer.files[0]));
+dropZone.addEventListener("drop", (event) => setFiles(event.dataTransfer.files));
+
+function appendFileResult(file, { output, preview, extension, mimeType, error }) {
+  const item = document.createElement("article");
+  item.className = "file-result-item";
+
+  const head = document.createElement("div");
+  head.className = "file-result-head";
+
+  const name = document.createElement("div");
+  name.className = "file-result-name";
+  name.textContent = file.name;
+  head.append(name);
+
+  const status = document.createElement("p");
+  status.className = "file-result-status";
+  if (error) {
+    status.classList.add("is-error");
+    status.textContent = formatMessage("fileProcessFailed", { error });
+  } else {
+    const outputName = `${file.name.replace(/\.(txt|docx|doc|pdf|xlsx|pptx)$/i, "")}-konvertatsiya${extension}`;
+    const blob = output instanceof Blob ? output : new Blob([output], { type: mimeType });
+    const link = document.createElement("a");
+    link.className = "button";
+    link.href = URL.createObjectURL(blob);
+    link.download = outputName;
+    const downloadLabels = {
+      ".docx": "downloadWord",
+      ".pdf": "downloadPdf",
+      ".pptx": "downloadPowerPoint",
+      ".txt": "downloadTxt",
+      ".xlsx": "downloadExcel",
+    };
+    link.textContent = translate(downloadLabels[extension]);
+    fileDownloadUrls.push(link.href);
+    convertedFiles.push({ name: outputName, blob });
+    head.append(link);
+    status.textContent = translate("fileProcessed");
+  }
+
+  item.append(head, status);
+  if (preview) {
+    const details = document.createElement("details");
+    const summary = document.createElement("summary");
+    summary.className = "file-preview-toggle";
+    summary.textContent = translate("previewResult");
+    const previewElement = document.createElement("pre");
+    previewElement.className = "result-preview";
+    previewElement.textContent = preview.slice(0, 5000) || translate("emptyDocument");
+    details.append(summary, previewElement);
+    item.append(details);
+  }
+  fileResults.append(item);
+  fileResult.classList.add("is-visible");
+}
 
 document.querySelector("#convert-file").addEventListener("click", async () => {
-  if (!currentFile) return;
+  if (!currentFiles.length) return;
   const button = document.querySelector("#convert-file");
   button.disabled = true;
-  setStatus(fileStatus, translate("convertingFile"));
+  clearFileResults();
+  let successCount = 0;
+  let failedCount = 0;
   try {
-    const isDocx = currentFile.name.toLowerCase().endsWith(".docx");
-    let output;
-    let preview;
-    let mimeType;
-    let extension;
-    if (isDocx) {
-      const result = await convertDocx(currentFile);
-      output = result.bytes;
-      preview = result.preview;
-      mimeType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-      extension = ".docx";
-    } else {
-      output = convertText(await currentFile.text());
-      preview = output;
-      mimeType = "text/plain;charset=utf-8";
-      extension = ".txt";
+    for (const [index, file] of currentFiles.entries()) {
+      setStatus(fileStatus, formatMessage("processingFiles", {
+        current: index + 1,
+        total: currentFiles.length,
+        name: file.name,
+      }));
+      try {
+        const extension = file.name.split(".").pop().toLowerCase();
+        let output;
+        let preview;
+        let mimeType;
+        let outputExtension;
+        if (extension === "doc") {
+          const result = await convertLegacyDoc(file);
+          output = result.blob;
+          preview = result.preview;
+          mimeType = "text/plain;charset=utf-8";
+          outputExtension = ".txt";
+        } else if (extension === "docx") {
+          const result = await convertDocx(file);
+          output = result.bytes;
+          preview = result.preview;
+          mimeType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+          outputExtension = ".docx";
+        } else if (extension === "xlsx" || extension === "pptx") {
+          const result = await convertOpenXml(file, extension);
+          output = result.bytes;
+          preview = result.preview;
+          mimeType = extension === "xlsx"
+            ? "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            : "application/vnd.openxmlformats-officedocument.presentationml.presentation";
+          outputExtension = `.${extension}`;
+        } else if (extension === "pdf") {
+          const result = await convertPdf(file);
+          output = result.bytes;
+          preview = result.preview;
+          mimeType = "application/pdf";
+          outputExtension = ".pdf";
+        } else {
+          const result = await convertTextFile(file);
+          output = result.blob;
+          preview = result.preview;
+          mimeType = "text/plain;charset=utf-8";
+          outputExtension = ".txt";
+        }
+        appendFileResult(file, { output, preview, extension: outputExtension, mimeType });
+        successCount += 1;
+      } catch (error) {
+        appendFileResult(file, { error: error.message || translate("fileFailed") });
+        failedCount += 1;
+      }
     }
-    filePreview.textContent = preview.slice(0, 5000) || translate("emptyDocument");
-    if (fileDownloadUrl) URL.revokeObjectURL(fileDownloadUrl);
-    fileDownloadUrl = URL.createObjectURL(new Blob([output], { type: mimeType }));
-    const baseName = currentFile.name.replace(/\.(txt|docx)$/i, "");
-    downloadFile.href = fileDownloadUrl;
-    downloadFile.download = `${baseName}-konvertatsiya${extension}`;
-    downloadFile.textContent = translate(isDocx ? "downloadWord" : "downloadTxt");
-    fileResult.classList.add("is-visible");
-    setStatus(fileStatus, translate("fileReady"));
-  } catch (error) {
-    setStatus(fileStatus, error.message || translate("fileFailed"), true);
+    const completionMessage = formatMessage("completedFiles", {
+      success: successCount,
+      failed: failedCount,
+    });
+    const skippedMessage = skippedFileCount > 0
+      ? ` ${formatMessage("skippedFiles", { count: skippedFileCount })}`
+      : "";
+    setStatus(fileStatus, `${completionMessage}${skippedMessage}`, failedCount > 0 || skippedFileCount > 0);
   } finally {
     button.disabled = false;
+    downloadAllButton.disabled = convertedFiles.length === 0;
+  }
+});
+
+downloadAllButton.addEventListener("click", async () => {
+  if (!convertedFiles.length) return;
+  downloadAllButton.disabled = true;
+  try {
+    if (!convertedArchive) convertedArchive = await buildDownloadArchive(convertedFiles);
+    if (!archiveDownloadUrl) archiveDownloadUrl = URL.createObjectURL(convertedArchive);
+    const link = document.createElement("a");
+    link.href = archiveDownloadUrl;
+    link.download = "konvertatsiya-natijalari.zip";
+    link.click();
+    setStatus(fileStatus, translate("downloadedAll"));
+  } catch (error) {
+    setStatus(fileStatus, formatMessage("archiveFailed", {
+      error: error.message || translate("fileFailed"),
+    }), true);
+  } finally {
+    downloadAllButton.disabled = convertedFiles.length === 0;
   }
 });
 
@@ -699,6 +1352,7 @@ applyTheme();
 applyLocale(currentLocale);
 updateDirection();
 window.addEventListener("beforeunload", () => {
-  if (fileDownloadUrl) URL.revokeObjectURL(fileDownloadUrl);
+  for (const url of fileDownloadUrls) URL.revokeObjectURL(url);
+  if (archiveDownloadUrl) URL.revokeObjectURL(archiveDownloadUrl);
   if (textDownloadUrl) URL.revokeObjectURL(textDownloadUrl);
 });
