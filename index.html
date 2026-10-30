@@ -1,0 +1,1241 @@
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="O‘zbek kirill yozuvini yangi lotin alifbosiga o‘tkazing. Matnni kiriting yoki TXT faylni yuklang."
+    />
+    <meta name="theme-color" content="#111827" />
+    <title>Yozuv — O‘zbek alifbosi konvertori</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        font-synthesis: none;
+        text-rendering: optimizeLegibility;
+        --page: #111827;
+        --panel: #1f2937;
+        --surface: #273449;
+        --surface-raised: #2d3b51;
+        --border: #3b4a60;
+        --text: #f3f6fb;
+        --muted: #a4b0c1;
+        --green: #0c9b72;
+        --green-hover: #10b981;
+        --green-soft: #133e39;
+        --danger: #fca5a5;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        min-width: 320px;
+        min-height: 100vh;
+        margin: 0;
+        padding: 38px 24px 56px;
+        background:
+          radial-gradient(ellipse at 50% -30%, #26364a 0, transparent 56%),
+          var(--page);
+        color: var(--text);
+      }
+
+      button,
+      textarea {
+        font: inherit;
+      }
+
+      button {
+        color: inherit;
+      }
+
+      .app {
+        width: min(100%, 960px);
+        margin: 0 auto;
+        padding: 28px 30px 32px;
+        border: 1px solid #293549;
+        border-radius: 20px;
+        background: rgba(31, 41, 55, 0.96);
+        box-shadow: 0 24px 80px #080d1780;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding-bottom: 22px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 11px;
+        color: var(--text);
+        font-size: 19px;
+        font-weight: 750;
+        letter-spacing: -0.035em;
+        text-decoration: none;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 36px;
+        height: 36px;
+        place-items: center;
+        border-radius: 11px;
+        background: var(--green);
+        color: white;
+        font-size: 17px;
+      }
+
+      .topbar-note {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .intro {
+        max-width: 660px;
+        margin: 37px auto 28px;
+        text-align: center;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        margin-bottom: 14px;
+        color: #65d6b3;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--green-hover);
+        content: "";
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(29px, 5vw, 42px);
+        font-weight: 750;
+        letter-spacing: -0.045em;
+        line-height: 1.14;
+      }
+
+      .intro p {
+        max-width: 555px;
+        margin: 14px auto 0;
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.65;
+      }
+
+      .flow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 21px;
+      }
+
+      .flow span {
+        padding: 7px 11px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: #202b3d;
+        color: #d7dfeb;
+        font-size: 12px;
+        font-weight: 650;
+      }
+
+      .flow b {
+        color: #53cba4;
+        font-size: 17px;
+      }
+
+      .section-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 14px;
+      }
+
+      .section-heading h2 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: -0.015em;
+      }
+
+      .section-heading p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .direction-card {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 40px minmax(0, 1fr);
+        align-items: end;
+        gap: 14px;
+        margin-bottom: 27px;
+        padding: 17px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: #202b3d;
+      }
+
+      .direction-field label {
+        display: block;
+        margin-bottom: 8px;
+        color: #dce5ef;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .direction-field select {
+        width: 100%;
+        min-height: 43px;
+        padding: 0 36px 0 12px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--panel);
+        color: var(--text);
+        font: inherit;
+        font-size: 13px;
+      }
+
+      .direction-field select:focus-visible {
+        outline: 2px solid #6ee7c0;
+        outline-offset: 3px;
+      }
+
+      .direction-arrow {
+        display: grid;
+        width: 38px;
+        height: 38px;
+        place-items: center;
+        margin-bottom: 2px;
+        color: #71daba;
+        font-size: 20px;
+      }
+
+      .upload-zone {
+        position: relative;
+        display: flex;
+        min-height: 203px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 25px;
+        border: 1px dashed #53627a;
+        border-radius: 14px;
+        background: #202b3d;
+        text-align: center;
+        transition:
+          border-color 160ms ease,
+          background 160ms ease,
+          transform 160ms ease;
+      }
+
+      .upload-zone.is-dragging {
+        transform: scale(1.005);
+        border-color: #51d4ab;
+        background: #203b3d;
+      }
+
+      .upload-icon {
+        display: grid;
+        width: 48px;
+        height: 48px;
+        place-items: center;
+        margin-bottom: 12px;
+        border: 1px solid #385b5a;
+        border-radius: 14px;
+        background: var(--green-soft);
+        color: #63d7b2;
+      }
+
+      .upload-icon svg {
+        width: 23px;
+        height: 23px;
+      }
+
+      .upload-title {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 650;
+      }
+
+      .upload-help {
+        margin: 6px 0 15px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .file-picker {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        clip-path: inset(50%);
+      }
+
+      .button {
+        display: inline-flex;
+        min-height: 40px;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 0 16px;
+        border: 1px solid transparent;
+        border-radius: 9px;
+        background: var(--green);
+        color: white;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 700;
+        text-decoration: none;
+        transition:
+          background 140ms ease,
+          border-color 140ms ease,
+          transform 140ms ease;
+      }
+
+      .button:hover:not(:disabled) {
+        background: var(--green-hover);
+      }
+
+      .button:active:not(:disabled) {
+        transform: translateY(1px);
+      }
+
+      .button:focus-visible,
+      .file-picker:focus-visible + .button,
+      textarea:focus-visible {
+        outline: 2px solid #6ee7c0;
+        outline-offset: 3px;
+      }
+
+      .button.secondary {
+        border-color: var(--border);
+        background: var(--surface);
+        color: #e4eaf3;
+      }
+
+      .button.secondary:hover:not(:disabled) {
+        border-color: #64748b;
+        background: var(--surface-raised);
+      }
+
+      .button:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+      }
+
+      .selected-file {
+        display: none;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        margin-top: 12px;
+        padding: 12px 14px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: var(--surface);
+      }
+
+      .selected-file.is-visible {
+        display: flex;
+      }
+
+      .file-details {
+        min-width: 0;
+      }
+
+      .file-name {
+        overflow: hidden;
+        color: var(--text);
+        font-size: 13px;
+        font-weight: 650;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .file-size {
+        margin-top: 3px;
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      .status {
+        min-height: 20px;
+        margin: 9px 2px 0;
+        color: #76ddba;
+        font-size: 12px;
+      }
+
+      .status.is-error {
+        color: var(--danger);
+      }
+
+      .result-card {
+        display: none;
+        margin-top: 17px;
+        padding: 16px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--surface);
+      }
+
+      .result-card.is-visible {
+        display: block;
+      }
+
+      .result-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 11px;
+      }
+
+      .result-head h3 {
+        margin: 0;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .result-preview {
+        max-height: 210px;
+        overflow: auto;
+        margin: 0;
+        padding: 13px;
+        border: 1px solid #39485e;
+        border-radius: 8px;
+        background: #202b3d;
+        color: #dce5ef;
+        font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+        font-size: 12px;
+        line-height: 1.65;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+      }
+
+      .divider {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin: 29px 0;
+        color: #8290a4;
+        font-size: 11px;
+        font-weight: 650;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+      }
+
+      .divider::before,
+      .divider::after {
+        height: 1px;
+        flex: 1;
+        background: var(--border);
+        content: "";
+      }
+
+      .text-card {
+        padding: 20px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: #202b3d;
+      }
+
+      .text-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 42px minmax(0, 1fr);
+        align-items: center;
+        gap: 15px;
+      }
+
+      .text-field label {
+        display: block;
+        margin-bottom: 9px;
+        color: #e6ecf5;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .text-field textarea {
+        display: block;
+        width: 100%;
+        min-height: 184px;
+        resize: vertical;
+        padding: 13px 14px;
+        border: 1px solid var(--border);
+        border-radius: 9px;
+        background: var(--panel);
+        color: var(--text);
+        font-size: 13px;
+        line-height: 1.65;
+      }
+
+      .text-field textarea::placeholder {
+        color: #8390a3;
+      }
+
+      .text-field textarea[readonly] {
+        color: #d7e3ed;
+      }
+
+      .swap {
+        display: grid;
+        width: 38px;
+        height: 38px;
+        place-items: center;
+        border: 1px solid var(--border);
+        border-radius: 50%;
+        background: var(--surface);
+        color: #71daba;
+        font-size: 18px;
+      }
+
+      .text-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+        margin-top: 15px;
+      }
+
+      .text-actions .hint {
+        margin-left: auto;
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      .footer {
+        display: flex;
+        align-items: flex-start;
+        gap: 11px;
+        margin-top: 23px;
+        padding: 13px 15px;
+        border: 1px solid #344352;
+        border-radius: 10px;
+        background: #202b3d;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.55;
+      }
+
+      .footer strong {
+        color: #dce7f1;
+      }
+
+      .footer-mark {
+        flex: 0 0 auto;
+        color: #6ed9b7;
+      }
+
+      @media (max-width: 680px) {
+        body {
+          padding: 16px 12px 28px;
+        }
+
+        .app {
+          padding: 20px 16px 22px;
+          border-radius: 15px;
+        }
+
+        .topbar {
+          padding-bottom: 17px;
+        }
+
+        .topbar-note {
+          max-width: 120px;
+          text-align: right;
+        }
+
+        .intro {
+          margin-top: 29px;
+        }
+
+        .section-heading {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 5px;
+        }
+
+        .upload-zone {
+          min-height: 190px;
+          padding: 20px 14px;
+        }
+
+        .text-card {
+          padding: 15px;
+        }
+
+        .direction-card {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 10px;
+          padding: 14px;
+        }
+
+        .direction-arrow {
+          width: 32px;
+          height: 25px;
+          margin: 0 auto;
+          transform: rotate(90deg);
+        }
+
+        .text-grid {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 11px;
+        }
+
+        .swap {
+          width: 32px;
+          height: 32px;
+          margin: 0 auto;
+          transform: rotate(90deg);
+        }
+
+        .text-field textarea {
+          min-height: 150px;
+        }
+
+        .text-actions .hint {
+          width: 100%;
+          margin-left: 0;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="app">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="Yozuv bosh sahifa">
+          <span class="brand-mark" aria-hidden="true">Yo</span>
+          <span>Yozuv</span>
+        </a>
+        <span class="topbar-note">O‘zbek alifbosi konvertori</span>
+      </header>
+
+      <section class="intro" aria-labelledby="page-title">
+        <div class="eyebrow">Bepul va qulay konvertor</div>
+        <h1 id="page-title">O‘zbek yozuvini bir zumda o‘giring</h1>
+        <p>
+          O‘zbek yozuvlari orasida matn va hujjatlarni o‘giring. Kerakli
+          alifbolarni tanlang, matnni kiriting yoki faylni yuklang.
+        </p>
+        <div class="flow" aria-label="Konvertatsiya yo‘nalishi">
+          <span id="flow-source">Ўзбекча кирилл</span>
+          <b aria-hidden="true">→</b>
+          <span id="flow-target">O‘zbek lotin — yangi</span>
+        </div>
+      </section>
+
+      <section class="direction-card" aria-label="Yozuv turini tanlash">
+        <div class="direction-field">
+          <label for="source-alphabet">Qaysi yozuvdan</label>
+          <select id="source-alphabet">
+            <option value="cyrillic">O‘zbek kirill yozuvi</option>
+            <option value="latin-new">O‘zbek lotin yozuvi — yangi (Ö, Ğ, Ş, Ç)</option>
+            <option value="latin-apostrophe">O‘zbek lotin yozuvi — apostrofli</option>
+          </select>
+        </div>
+        <div class="direction-arrow" aria-hidden="true">→</div>
+        <div class="direction-field">
+          <label for="target-alphabet">Qaysi yozuvga</label>
+          <select id="target-alphabet">
+            <option value="cyrillic">O‘zbek kirill yozuvi</option>
+            <option value="latin-new" selected>O‘zbek lotin yozuvi — yangi (Ö, Ğ, Ş, Ç)</option>
+            <option value="latin-apostrophe">O‘zbek lotin yozuvi — apostrofli</option>
+          </select>
+        </div>
+      </section>
+
+      <section aria-labelledby="file-heading">
+        <div class="section-heading">
+          <h2 id="file-heading">Faylni konvertatsiya qilish</h2>
+          <p>Fayl qurilmangizda qayta ishlanadi</p>
+        </div>
+
+        <div class="upload-zone" id="drop-zone">
+          <div class="upload-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5" />
+              <path d="M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4" />
+            </svg>
+          </div>
+          <p class="upload-title">Faylni shu yerga olib keling</p>
+          <p class="upload-help">.txt yoki .docx · 30 MB gacha (taxminan 30 bet)</p>
+          <input class="file-picker" id="file-input" type="file" accept=".txt,.docx,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+          <label class="button secondary" for="file-input">Fayl tanlash</label>
+        </div>
+
+        <div class="selected-file" id="selected-file">
+          <div class="file-details">
+            <div class="file-name" id="file-name"></div>
+            <div class="file-size" id="file-size"></div>
+          </div>
+          <button class="button" id="convert-file" type="button">Konvertatsiya qilish</button>
+        </div>
+        <p class="status" id="file-status" role="status" aria-live="polite"></p>
+
+        <section class="result-card" id="file-result" aria-labelledby="file-result-heading">
+          <div class="result-head">
+            <h3 id="file-result-heading">Konvertatsiya natijasi</h3>
+            <a class="button" id="download-file" download="matn-lotin.txt" href="#">Natijani yuklab olish</a>
+          </div>
+          <pre class="result-preview" id="file-preview"></pre>
+        </section>
+      </section>
+
+      <div class="divider" aria-hidden="true">yoki matnni shu yerda o‘giring</div>
+
+      <section aria-labelledby="text-heading">
+        <div class="section-heading">
+          <h2 id="text-heading">Matn bilan ishlash</h2>
+          <p>Matnni kiriting yoki joylang — natijani nusxalang</p>
+        </div>
+        <div class="text-card">
+          <div class="text-grid">
+            <div class="text-field">
+              <label id="source-text-label" for="source-text">O‘zbek kirill yozuvi</label>
+              <textarea
+                id="source-text"
+                placeholder="Масалан: Ассалому алайкум! Ўзбекистон — гўзал юрт."
+                spellcheck="false"
+              ></textarea>
+            </div>
+            <div class="swap" aria-hidden="true">→</div>
+            <div class="text-field">
+              <label id="converted-text-label" for="converted-text">O‘zbek lotin yozuvi — yangi</label>
+              <textarea id="converted-text" placeholder="Natija shu yerda ko‘rinadi" readonly></textarea>
+            </div>
+          </div>
+          <div class="text-actions">
+            <button class="button" id="convert-text" type="button">Matnni konvertatsiya qilish</button>
+            <button class="button secondary" id="copy-text" type="button" disabled>Nusxalash</button>
+            <button class="button secondary" id="download-text" type="button" disabled>TXT yuklab olish</button>
+            <span class="hint" id="text-status" role="status" aria-live="polite"></span>
+          </div>
+        </div>
+      </section>
+
+      <aside class="footer">
+        <span class="footer-mark" aria-hidden="true">✦</span>
+        <span>
+          <strong>Maxfiylik:</strong> fayllar serverga yuborilmaydi. Barcha
+          konvertatsiya bevosita brauzeringizda amalga oshiriladi.
+        </span>
+      </aside>
+    </main>
+
+    <script>
+      const cyrillicToLatin = {
+        А: "A", а: "a", Б: "B", б: "b", В: "V", в: "v", Г: "G", г: "g",
+        Д: "D", д: "d", Е: "E", е: "e", Ё: "Yo", ё: "yo", Ж: "J", ж: "j",
+        З: "Z", з: "z", И: "I", и: "i", Й: "Y", й: "y", К: "K", к: "k",
+        Л: "L", л: "l", М: "M", м: "m", Н: "N", н: "n", О: "O", о: "o",
+        П: "P", п: "p", Р: "R", р: "r", С: "S", с: "s", Т: "T", т: "t",
+        У: "U", у: "u", Ф: "F", ф: "f", Х: "X", х: "x", Ц: "Ts", ц: "ts",
+        Ч: "Ch", ч: "ch", Ш: "Sh", ш: "sh", Щ: "Shch", щ: "shch",
+        Ъ: "ʼ", ъ: "ʼ", Ы: "I", ы: "i", Ь: "ʼ", ь: "ʼ", Э: "E", э: "e",
+        Ю: "Yu", ю: "yu", Я: "Ya", я: "ya", Ў: "Oʻ", ў: "oʻ", Қ: "Q",
+        қ: "q", Ғ: "Gʻ", ғ: "gʻ", Ҳ: "H", ҳ: "h",
+      };
+      const latinToCyrillic = {
+        a: "а", b: "б", d: "д", e: "е", f: "ф", g: "г", h: "ҳ", i: "и",
+        j: "ж", k: "к", l: "л", m: "м", n: "н", o: "о", p: "п", q: "қ",
+        r: "р", s: "с", t: "т", u: "у", v: "в", x: "х", y: "й", z: "з",
+        w: "в", c: "ц",
+      };
+      const latinDigraphs = [
+        ["shch", "щ"], ["oʻ", "ў"], ["gʻ", "ғ"], ["yo", "ё"], ["yu", "ю"],
+        ["ya", "я"], ["sh", "ш"], ["ch", "ч"], ["ts", "ц"],
+      ];
+      const alphabets = {
+        cyrillic: "O‘zbek kirill yozuvi",
+        "latin-new": "O‘zbek lotin yozuvi — yangi (Ö, Ğ, Ş, Ç)",
+        "latin-apostrophe": "O‘zbek lotin yozuvi — apostrofli",
+      };
+      const MAX_FILE_SIZE = 30 * 1024 * 1024;
+      const MAX_UNCOMPRESSED_SIZE = 150 * 1024 * 1024;
+      const encoder = new TextEncoder();
+      const decoder = new TextDecoder("utf-8");
+
+      const fileInput = document.querySelector("#file-input");
+      const dropZone = document.querySelector("#drop-zone");
+      const selectedFile = document.querySelector("#selected-file");
+      const fileName = document.querySelector("#file-name");
+      const fileSize = document.querySelector("#file-size");
+      const fileStatus = document.querySelector("#file-status");
+      const fileResult = document.querySelector("#file-result");
+      const filePreview = document.querySelector("#file-preview");
+      const downloadFile = document.querySelector("#download-file");
+      const sourceAlphabet = document.querySelector("#source-alphabet");
+      const targetAlphabet = document.querySelector("#target-alphabet");
+      const sourceText = document.querySelector("#source-text");
+      const convertedText = document.querySelector("#converted-text");
+      const copyText = document.querySelector("#copy-text");
+      const downloadText = document.querySelector("#download-text");
+      const textStatus = document.querySelector("#text-status");
+      let currentFile = null;
+      let fileDownloadUrl = null;
+      let textDownloadUrl = null;
+
+      function convertCyrillicToLatin(text) {
+        const letters = Array.from(text);
+        return letters.map((letter, index) => {
+          if (letter === "Е" || letter === "е") {
+            const previous = letters[index - 1] || "";
+            const startsWord = index === 0 || !/[\p{L}\p{N}]/u.test(previous);
+            const followsVowelOrSign = /[АаЕеЁёИиОоУуЎўЭэЮюЯяЪъЬь]/u.test(previous);
+            if (startsWord || followsVowelOrSign) {
+              return letter === "Е" ? "Ye" : "ye";
+            }
+          }
+          return cyrillicToLatin[letter] ?? letter;
+        }).join("");
+      }
+
+      function convertLatinToCyrillic(text) {
+        const normalized = normalizeNewLatin(text).replace(/[ʻʼ’‘`]/g, "'").replace(/([OoGg])'/g, "$1ʻ");
+        const letters = Array.from(normalized);
+        let output = "";
+        for (let index = 0; index < letters.length;) {
+          const remaining = letters.slice(index).join("").toLowerCase();
+          const digraph = latinDigraphs.find(([latin]) => remaining.startsWith(latin));
+          if (digraph) {
+            const source = letters.slice(index, index + digraph[0].length).join("");
+            output += source[0] === source[0].toUpperCase()
+              ? digraph[1].toUpperCase()
+              : digraph[1];
+            index += digraph[0].length;
+            continue;
+          }
+          const character = letters[index];
+          const lower = character.toLowerCase();
+          let converted = latinToCyrillic[lower];
+          if (character === "ʻ" || character === "'") converted = "ъ";
+          if (converted && character === character.toUpperCase()) converted = converted.toUpperCase();
+          output += converted ?? character;
+          index += 1;
+        }
+        return output;
+      }
+
+      function normalizeNewLatin(text) {
+        return text
+          .replace(/[Öö]/g, (letter) => letter === "Ö" ? "Oʻ" : "oʻ")
+          .replace(/[Ğğ]/g, (letter) => letter === "Ğ" ? "Gʻ" : "gʻ")
+          .replace(/[Şş]/g, (letter) => letter === "Ş" ? "Sh" : "sh")
+          .replace(/[Çç]/g, (letter) => letter === "Ç" ? "Ch" : "ch");
+      }
+
+      function formatNewLatin(text) {
+        return text
+          .replace(/([OoGg])['ʻʼ’‘`]/g, (_match, letter) => `${letter}ʻ`)
+          .replace(/['’‘`ʼ]/g, "ʼ")
+          .replace(/[Oo]ʻ/g, (letter) => letter[0] === "O" ? "Ö" : "ö")
+          .replace(/[Gg]ʻ/g, (letter) => letter[0] === "G" ? "Ğ" : "ğ")
+          .replace(/sh/gi, (letters) => letters[0] === letters[0].toUpperCase() ? "Ş" : "ş")
+          .replace(/ch/gi, (letters) => letters[0] === letters[0].toUpperCase() ? "Ç" : "ç");
+      }
+
+      function formatApostropheLatin(text) {
+        return normalizeNewLatin(text)
+          .replace(/[Oo]ʻ/g, (letter) => letter[0] === "O" ? "O'" : "o'")
+          .replace(/[Gg]ʻ/g, (letter) => letter[0] === "G" ? "G'" : "g'")
+          .replace(/[ʻʼ’‘`]/g, "'");
+      }
+
+      function convertText(text, from = sourceAlphabet.value, to = targetAlphabet.value) {
+        if (from === to) return text;
+        if (from === "cyrillic") {
+          const converted = convertCyrillicToLatin(text);
+          return to === "latin-new" ? formatNewLatin(converted) : formatApostropheLatin(converted);
+        }
+        if (to === "cyrillic") return convertLatinToCyrillic(text);
+        return to === "latin-new" ? formatNewLatin(text) : formatApostropheLatin(text);
+      }
+
+      function updateDirection() {
+        const sourceName = alphabets[sourceAlphabet.value];
+        const targetName = alphabets[targetAlphabet.value];
+        document.querySelector("#flow-source").textContent = sourceName;
+        document.querySelector("#flow-target").textContent = targetName;
+        document.querySelector("#source-text-label").textContent = sourceName;
+        document.querySelector("#converted-text-label").textContent = targetName;
+        fileResult.classList.remove("is-visible");
+        setStatus(fileStatus, "");
+        setStatus(textStatus, "");
+      }
+
+      function formatSize(bytes) {
+        if (bytes < 1024) return `${bytes} bayt`;
+        if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+        return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+      }
+
+      function setStatus(element, message, isError = false) {
+        element.textContent = message;
+        element.classList.toggle("is-error", isError);
+      }
+
+      function setFile(file) {
+        if (!file) return;
+        const name = file.name.toLowerCase();
+        if (!name.endsWith(".txt") && !name.endsWith(".docx")) {
+          currentFile = null;
+          fileInput.value = "";
+          selectedFile.classList.remove("is-visible");
+          fileResult.classList.remove("is-visible");
+          setStatus(fileStatus, "Iltimos, .txt yoki .docx formatidagi faylni tanlang.", true);
+          return;
+        }
+        if (file.size > MAX_FILE_SIZE) {
+          currentFile = null;
+          fileInput.value = "";
+          selectedFile.classList.remove("is-visible");
+          fileResult.classList.remove("is-visible");
+          setStatus(fileStatus, "Fayl hajmi 30 MB dan oshmasligi kerak.", true);
+          return;
+        }
+        currentFile = file;
+        fileName.textContent = file.name;
+        fileSize.textContent = formatSize(file.size);
+        selectedFile.classList.add("is-visible");
+        fileResult.classList.remove("is-visible");
+        setStatus(fileStatus, "");
+      }
+
+      function crc32(bytes) {
+        let crc = 0xffffffff;
+        for (const byte of bytes) {
+          crc ^= byte;
+          for (let bit = 0; bit < 8; bit += 1) {
+            crc = (crc >>> 1) ^ (crc & 1 ? 0xedb88320 : 0);
+          }
+        }
+        return (crc ^ 0xffffffff) >>> 0;
+      }
+
+      function findZipDirectory(bytes, view) {
+        const minimum = Math.max(0, bytes.length - 65557);
+        for (let offset = bytes.length - 22; offset >= minimum; offset -= 1) {
+          if (view.getUint32(offset, true) === 0x06054b50) {
+            const commentLength = view.getUint16(offset + 20, true);
+            if (offset + 22 + commentLength === bytes.length) return offset;
+          }
+        }
+        throw new Error("Word fayl arxivi buzilgan yoki DOCX formatida emas.");
+      }
+
+      async function readZipEntries(bytes) {
+        const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+        const endOffset = findZipDirectory(bytes, view);
+        const count = view.getUint16(endOffset + 10, true);
+        const centralSize = view.getUint32(endOffset + 12, true);
+        let offset = view.getUint32(endOffset + 16, true);
+        let totalUncompressedSize = 0;
+        if (count === 0xffff || centralSize === 0xffffffff || offset === 0xffffffff) {
+          throw new Error("ZIP64 arxivlari qo‘llab-quvvatlanmaydi.");
+        }
+        const entries = [];
+        for (let index = 0; index < count; index += 1) {
+          if (view.getUint32(offset, true) !== 0x02014b50) {
+            throw new Error("Word faylining ZIP katalogini o‘qib bo‘lmadi.");
+          }
+          const nameLength = view.getUint16(offset + 28, true);
+          const extraLength = view.getUint16(offset + 30, true);
+          const commentLength = view.getUint16(offset + 32, true);
+          const compressedSize = view.getUint32(offset + 20, true);
+          const uncompressedSize = view.getUint32(offset + 24, true);
+          totalUncompressedSize += uncompressedSize;
+          if (totalUncompressedSize > MAX_UNCOMPRESSED_SIZE) {
+            throw new Error("Hujjat ochilgandan keyin 150 MB dan oshadi. Kichikroq fayl yuklang.");
+          }
+          const localOffset = view.getUint32(offset + 42, true);
+          if (compressedSize === 0xffffffff || uncompressedSize === 0xffffffff || localOffset === 0xffffffff) {
+            throw new Error("ZIP64 arxivlari qo‘llab-quvvatlanmaydi.");
+          }
+          const nameBytes = bytes.slice(offset + 46, offset + 46 + nameLength);
+          const entry = {
+            name: decoder.decode(nameBytes),
+            nameBytes,
+            central: bytes.slice(offset, offset + 46 + nameLength + extraLength + commentLength),
+            flags: view.getUint16(offset + 8, true),
+            method: view.getUint16(offset + 10, true),
+            time: view.getUint16(offset + 12, true),
+            date: view.getUint16(offset + 14, true),
+            crc: view.getUint32(offset + 16, true),
+            compressedSize,
+            uncompressedSize,
+            localOffset,
+            data: null,
+            replacement: null,
+          };
+          if (entry.flags & 1) throw new Error("Parol bilan himoyalangan Word faylini ochib bo‘lmaydi.");
+          const localNameLength = view.getUint16(localOffset + 26, true);
+          const localExtraLength = view.getUint16(localOffset + 28, true);
+          const dataOffset = localOffset + 30 + localNameLength + localExtraLength;
+          entry.data = bytes.slice(dataOffset, dataOffset + compressedSize);
+          entries.push(entry);
+          offset += 46 + nameLength + extraLength + commentLength;
+        }
+        return {
+          entries,
+          comment: bytes.slice(endOffset + 22),
+        };
+      }
+
+      async function decompressEntry(entry) {
+        if (entry.method === 0) return entry.data;
+        if (entry.method !== 8) throw new Error(`Word arxivining ${entry.method} siqish usuli qo‘llab-quvvatlanmaydi.`);
+        if (typeof DecompressionStream === "undefined") {
+          throw new Error("DOCX ochish uchun zamonaviy Chrome, Edge yoki Firefox brauzeridan foydalaning.");
+        }
+        try {
+          const stream = new Blob([entry.data]).stream().pipeThrough(new DecompressionStream("deflate-raw"));
+          const result = new Uint8Array(await new Response(stream).arrayBuffer());
+          if (result.length !== entry.uncompressedSize) throw new Error("Arxiv yozuvi o‘lchami mos kelmadi.");
+          return result;
+        } catch (error) {
+          throw new Error(`Word hujjatini ochib bo‘lmadi: ${error.message}`);
+        }
+      }
+
+      function joinBytes(chunks) {
+        const length = chunks.reduce((total, chunk) => total + chunk.length, 0);
+        const result = new Uint8Array(length);
+        let offset = 0;
+        for (const chunk of chunks) {
+          result.set(chunk, offset);
+          offset += chunk.length;
+        }
+        return result;
+      }
+
+      function buildZip(entries, comment) {
+        const localChunks = [];
+        const centralChunks = [];
+        let localOffset = 0;
+        for (const entry of entries) {
+          const payload = entry.replacement ?? entry.data;
+          const flags = entry.flags & ~0x0008;
+          const method = entry.replacement ? 0 : entry.method;
+          const checksum = entry.replacement ? crc32(payload) : entry.crc;
+          const compressedSize = payload.length;
+          const uncompressedSize = entry.replacement ? payload.length : entry.uncompressedSize;
+          const local = new Uint8Array(30 + entry.nameBytes.length);
+          const localView = new DataView(local.buffer);
+          localView.setUint32(0, 0x04034b50, true);
+          localView.setUint16(4, 20, true);
+          localView.setUint16(6, flags, true);
+          localView.setUint16(8, method, true);
+          localView.setUint16(10, entry.time, true);
+          localView.setUint16(12, entry.date, true);
+          localView.setUint32(14, checksum, true);
+          localView.setUint32(18, compressedSize, true);
+          localView.setUint32(22, uncompressedSize, true);
+          localView.setUint16(26, entry.nameBytes.length, true);
+          localView.setUint16(28, 0, true);
+          local.set(entry.nameBytes, 30);
+          localChunks.push(local, payload);
+
+          const oldCentral = entry.central;
+          const oldView = new DataView(oldCentral.buffer, oldCentral.byteOffset, oldCentral.byteLength);
+          const extraLength = oldView.getUint16(30, true);
+          const commentLength = oldView.getUint16(32, true);
+          const central = new Uint8Array(46 + entry.nameBytes.length + extraLength + commentLength);
+          central.set(oldCentral);
+          const centralView = new DataView(central.buffer);
+          centralView.setUint16(8, flags, true);
+          centralView.setUint16(10, method, true);
+          centralView.setUint32(16, checksum, true);
+          centralView.setUint32(20, compressedSize, true);
+          centralView.setUint32(24, uncompressedSize, true);
+          centralView.setUint32(42, localOffset, true);
+          centralChunks.push(central);
+          localOffset += local.length + payload.length;
+        }
+
+        const centralDirectory = joinBytes(centralChunks);
+        if (entries.length > 0xffff || centralDirectory.length > 0xffffffff) {
+          throw new Error("Word fayli juda katta bo‘lgani uchun ZIP64 formati kerak.");
+        }
+        const end = new Uint8Array(22 + comment.length);
+        const endView = new DataView(end.buffer);
+        endView.setUint32(0, 0x06054b50, true);
+        endView.setUint16(8, entries.length, true);
+        endView.setUint16(10, entries.length, true);
+        endView.setUint32(12, centralDirectory.length, true);
+        endView.setUint32(16, localOffset, true);
+        endView.setUint16(20, comment.length, true);
+        end.set(comment, 22);
+        return joinBytes([...localChunks, centralDirectory, end]);
+      }
+
+      function convertWordXml(xmlText) {
+        const documentXml = new DOMParser().parseFromString(xmlText, "application/xml");
+        if (documentXml.querySelector("parsererror")) {
+          throw new Error("Word hujjatidagi XML matnini o‘qib bo‘lmadi.");
+        }
+        const textNodes = Array.from(documentXml.getElementsByTagNameNS("*", "t"))
+          .filter((node) => node.namespaceURI?.includes("wordprocessingml"));
+        for (const node of textNodes) node.textContent = convertText(node.textContent);
+        const paragraphs = Array.from(documentXml.getElementsByTagNameNS("*", "p"))
+          .filter((node) => node.namespaceURI?.includes("wordprocessingml"));
+        const preview = paragraphs.map((paragraph) => paragraph.textContent).filter(Boolean).join("\n");
+        return {
+          xml: new XMLSerializer().serializeToString(documentXml),
+          preview,
+          textNodeCount: textNodes.length,
+        };
+      }
+
+      async function convertDocx(file) {
+        const bytes = new Uint8Array(await file.arrayBuffer());
+        const archive = await readZipEntries(bytes);
+        const parts = archive.entries.filter((entry) =>
+          /^word\/(document|header\d*|footer\d*|footnotes|endnotes)\.xml$/i.test(entry.name),
+        );
+        const documentPart = parts.find((entry) => /^word\/document\.xml$/i.test(entry.name));
+        if (!documentPart) throw new Error("DOCX hujjatida asosiy matn topilmadi.");
+        let preview = "";
+        let convertedCount = 0;
+        for (const part of parts) {
+          const xml = decoder.decode(await decompressEntry(part));
+          const converted = convertWordXml(xml);
+          part.replacement = encoder.encode(converted.xml);
+          convertedCount += converted.textNodeCount;
+          if (part === documentPart) preview = converted.preview;
+        }
+        if (convertedCount === 0) throw new Error("Word hujjatida konvertatsiya qilinadigan matn topilmadi.");
+        return {
+          bytes: buildZip(archive.entries, archive.comment),
+          preview,
+        };
+      }
+
+      sourceAlphabet.addEventListener("change", updateDirection);
+      targetAlphabet.addEventListener("change", updateDirection);
+      fileInput.addEventListener("change", () => setFile(fileInput.files[0]));
+
+      for (const eventName of ["dragenter", "dragover"]) {
+        dropZone.addEventListener(eventName, (event) => {
+          event.preventDefault();
+          dropZone.classList.add("is-dragging");
+        });
+      }
+
+      for (const eventName of ["dragleave", "drop"]) {
+        dropZone.addEventListener(eventName, (event) => {
+          event.preventDefault();
+          dropZone.classList.remove("is-dragging");
+        });
+      }
+
+      dropZone.addEventListener("drop", (event) => setFile(event.dataTransfer.files[0]));
+
+      document.querySelector("#convert-file").addEventListener("click", async () => {
+        if (!currentFile) return;
+        const button = document.querySelector("#convert-file");
+        button.disabled = true;
+        setStatus(fileStatus, "Fayl konvertatsiya qilinmoqda…");
+        try {
+          const isDocx = currentFile.name.toLowerCase().endsWith(".docx");
+          let output;
+          let preview;
+          let mimeType;
+          let extension;
+          if (isDocx) {
+            const result = await convertDocx(currentFile);
+            output = result.bytes;
+            preview = result.preview;
+            mimeType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+            extension = ".docx";
+          } else {
+            output = convertText(await currentFile.text());
+            preview = output;
+            mimeType = "text/plain;charset=utf-8";
+            extension = ".txt";
+          }
+          filePreview.textContent = preview.slice(0, 5000) || "Hujjatda matn topilmadi.";
+          if (fileDownloadUrl) URL.revokeObjectURL(fileDownloadUrl);
+          fileDownloadUrl = URL.createObjectURL(new Blob([output], { type: mimeType }));
+          const baseName = currentFile.name.replace(/\.(txt|docx)$/i, "");
+          downloadFile.href = fileDownloadUrl;
+          downloadFile.download = `${baseName}-konvertatsiya${extension}`;
+          downloadFile.textContent = `${isDocx ? "Word" : "TXT"} faylni yuklab olish`;
+          fileResult.classList.add("is-visible");
+          setStatus(fileStatus, "Tayyor — fayl qurilmangizda konvertatsiya qilindi.");
+        } catch (error) {
+          setStatus(fileStatus, error.message || "Faylni konvertatsiya qilib bo‘lmadi.", true);
+        } finally {
+          button.disabled = false;
+        }
+      });
+
+      document.querySelector("#convert-text").addEventListener("click", () => {
+        convertedText.value = convertText(sourceText.value);
+        copyText.disabled = !convertedText.value;
+        downloadText.disabled = !convertedText.value;
+        setStatus(textStatus, convertedText.value ? "Matn konvertatsiya qilindi." : "Avval matn kiriting.");
+      });
+
+      copyText.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(convertedText.value);
+          setStatus(textStatus, "Natija nusxalandi.");
+        } catch {
+          convertedText.focus();
+          convertedText.select();
+          setStatus(textStatus, "Avtomatik nusxalash ishlamadi — matnni qo‘lda nusxalang.", true);
+        }
+      });
+
+      downloadText.addEventListener("click", () => {
+        if (!convertedText.value) return;
+        if (textDownloadUrl) URL.revokeObjectURL(textDownloadUrl);
+        textDownloadUrl = URL.createObjectURL(new Blob([convertedText.value], { type: "text/plain;charset=utf-8" }));
+        const link = document.createElement("a");
+        link.href = textDownloadUrl;
+        link.download = "matn-konvertatsiya.txt";
+        link.click();
+        setStatus(textStatus, "TXT fayl yuklab olindi.");
+      });
+
+      updateDirection();
+      window.addEventListener("beforeunload", () => {
+        if (fileDownloadUrl) URL.revokeObjectURL(fileDownloadUrl);
+        if (textDownloadUrl) URL.revokeObjectURL(textDownloadUrl);
+      });
+    </script>
+  </body>
+</html>
