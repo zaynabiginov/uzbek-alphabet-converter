@@ -979,7 +979,7 @@ min-height: 58px;
 .github-link:hover {
   background: #273449;
   color: #35e2a8;
-  transform: translateY(-1px);
+  /* transform: translateY(-1px); */
 }
 
 .github-link:focus-visible {
