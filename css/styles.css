@@ -962,18 +962,18 @@ textarea:focus-visible {
 }
 
 .github-link {
-  display: flex;
-  min-height: 84px;
-  align-items: center;
-  gap: 12px;
-  padding: 20px 27px;
-  border-radius: 15px;
-  background: #1f2937;
-  color: #08c98a;
-  font-size: 19px;
-  font-weight: 700;
-  text-decoration: none;
-  transition: background-color 150ms ease, color 150ms ease, transform 150ms ease;
+display: flex;
+min-height: 58px;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 27px;
+    border-radius: 15px;
+    background: #1f2937;
+    color: #08c98a;
+    font-size: 17px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 150ms ease, color 150ms ease, transform 150ms ease;
 }
 
 .github-link:hover {
